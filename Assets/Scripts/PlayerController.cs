@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     private const float MAX_VERTICAL_SPEED = 5f;
     private const float MAX_FALLING_SPEED = 10f;
     // dashing
-    private const float DASH_SPEED = 10f;
-    private const float DASH_TIME = 0.15f;
+    private const float DASH_SPEED = 12f;
+    private const float DASH_TIME = 0.2f;
     private const float DASH_COOLDOWN = 5.0f;
 
     // components
@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     // Unity variables
     [SerializeField] private LayerMask platformMask;
+
+    // facing variable
+    private Side facing = Side.Right;
 
     // jump variables
     private bool isJumping = false;
@@ -60,116 +63,121 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // HORIZONTAL CONTROLS ----------------------------------------------------------------
-
-        // Apply forces
-        if (InputHelper.GetRightOnly())
+        if(!isDashing) // only allows movement, jumping, sliding, speed capping, etc. while not dashinga
         {
-            if (IsGrounded())
-                rb.AddForce(new Vector2(GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
-            else if (!isJumping || jumpSide != Side.Left) // prevents climbing up right walls
-                rb.AddForce(new Vector2(AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
-        }
-        else if (InputHelper.GetLeftOnly())
-        {
-            if (IsGrounded())
-                rb.AddForce(new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
-            else if (!isJumping || jumpSide != Side.Right) // prevents climbing up left walls
-                rb.AddForce(new Vector2(-AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
-        }
-        else if (IsGrounded()) // instantly stops player if grounded with no horizontal inputs
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
+            // HORIZONTAL CONTROLS ----------------------------------------------------------------
 
-        // JUMPING CONTROLS ------------------------------------------------------------------
-
-        // grounded jump startup
-        if (IsGrounded() && InputHelper.GetSpacePress())
-        {
-            // set initial jumping state
-            isJumping = true; 
-            jumpTimer = 0;
-            jumpSide = Side.None;
-
-            // apply initial jump velocity
-            rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
-        }
-
-        // right wall jump startup
-        if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
-        {
-            // set initial jumping state
-            isJumping = true;
-            jumpTimer = 0;
-            jumpSide = Side.Left;
-
-            // apply initial jump velocity
-            rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
-        }
-
-        // left wall jump startup
-        if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
-        {
-            // set initial jumping state
-            isJumping = true;
-            jumpTimer = 0;
-            jumpSide = Side.Right;
-
-            // apply initial jump velocity
-            rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
-        }
-
-        // controls to apply jumping force and continue jump
-        if (isJumping)
-        {
-            // increment jump timer
-            jumpTimer += Time.deltaTime;
-
-            // apply jump force
-            switch(jumpSide)
+            // Apply forces
+            if (InputHelper.GetRightOnly())
             {
-                case Side.Left:
-                    rb.AddForce(new Vector2(-1 * JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
-                    break;
-                case Side.Right:
-                    rb.AddForce(new Vector2(JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
-                    break;
-                case Side.None:
-                    rb.AddForce(new Vector2(0, JUMP_FORCE), ForceMode2D.Force);
-                    break;
+                facing = Side.Right;
+                if (IsGrounded())
+                    rb.AddForce(new Vector2(GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                else if (!isJumping || jumpSide != Side.Left) // prevents climbing up right walls
+                    rb.AddForce(new Vector2(AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+            }
+            else if (InputHelper.GetLeftOnly())
+            {
+                facing = Side.Left;
+                if (IsGrounded())
+                    rb.AddForce(new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                else if (!isJumping || jumpSide != Side.Right) // prevents climbing up left walls
+                    rb.AddForce(new Vector2(-AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+            }
+            else if (IsGrounded()) // instantly stops player if grounded with no horizontal inputs
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
             }
 
-            // end jumping on key release or timer end
-            if (jumpTimer > MAX_JUMP_TIME || !InputHelper.GetUp())
+            // JUMPING CONTROLS ------------------------------------------------------------------
+
+            // grounded jump startup
+            if (IsGrounded() && InputHelper.GetSpacePress())
             {
-                isJumping = false;
+                // set initial jumping state
+                isJumping = true;
+                jumpTimer = 0;
+                jumpSide = Side.None;
+
+                // apply initial jump velocity
+                rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
             }
+
+            // right wall jump startup
+            if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
+            {
+                // set initial jumping state
+                isJumping = true;
+                jumpTimer = 0;
+                jumpSide = Side.Left;
+
+                // apply initial jump velocity
+                rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+            }
+
+            // left wall jump startup
+            if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
+            {
+                // set initial jumping state
+                isJumping = true;
+                jumpTimer = 0;
+                jumpSide = Side.Right;
+
+                // apply initial jump velocity
+                rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+            }
+
+            // controls to apply jumping force and continue jump
+            if (isJumping)
+            {
+                // increment jump timer
+                jumpTimer += Time.deltaTime;
+
+                // apply jump force
+                switch (jumpSide)
+                {
+                    case Side.Left:
+                        rb.AddForce(new Vector2(-1 * JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
+                        break;
+                    case Side.Right:
+                        rb.AddForce(new Vector2(JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
+                        break;
+                    case Side.None:
+                        rb.AddForce(new Vector2(0, JUMP_FORCE), ForceMode2D.Force);
+                        break;
+                }
+
+                // end jumping on key release or timer end
+                if (jumpTimer > MAX_JUMP_TIME || !InputHelper.GetUp())
+                {
+                    isJumping = false;
+                }
+            }
+
+            // SLIDING CONTROLS -------------------------------------------------------------- 
+
+            // apply sliding friction and cap sliding speed if sliding down a wall
+            if ((IsTouchingRightWall() || IsTouchingLeftWall()) && rb.velocity.y < 0)
+            {
+                rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
+                if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
+                    rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
+            }
+
+            // MAX SPEED CAPS -----------------------------------------------------------------
+
+            // check for max horizontal speed caps
+            if (rb.velocity.x >= MAX_HORIZONTAL_SPEED)
+                rb.velocity = new Vector2(MAX_HORIZONTAL_SPEED, rb.velocity.y);
+            if (rb.velocity.x <= -1 * MAX_HORIZONTAL_SPEED)
+                rb.velocity = new Vector2(-1 * MAX_HORIZONTAL_SPEED, rb.velocity.y);
+
+            // check for max vertical speed caps
+            if (rb.velocity.y > MAX_VERTICAL_SPEED)
+                rb.velocity = new Vector2(rb.velocity.x, MAX_VERTICAL_SPEED);
+            if (rb.velocity.y < -1 * MAX_FALLING_SPEED)
+                rb.velocity = new Vector2(rb.velocity.x, -1 * MAX_FALLING_SPEED);
         }
-
-        // SLIDING CONTROLS -------------------------------------------------------------- 
-
-        // apply sliding friction and cap sliding speed if sliding down a wall
-        if ((IsTouchingRightWall() || IsTouchingLeftWall()) && rb.velocity.y < 0)
-        {
-            rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
-            if(rb.velocity.y < -1 * MAX_SLIDING_SPEED)
-                rb.velocity = new Vector2(0, -1* MAX_SLIDING_SPEED);
-        }
-
-        // MAX SPEED CAPS -----------------------------------------------------------------
-
-        // check for max horizontal speed caps
-        if (rb.velocity.x >= MAX_HORIZONTAL_SPEED)
-            rb.velocity = new Vector2(MAX_HORIZONTAL_SPEED, rb.velocity.y);
-        if (rb.velocity.x <= -1 * MAX_HORIZONTAL_SPEED)
-            rb.velocity = new Vector2(-1 * MAX_HORIZONTAL_SPEED, rb.velocity.y);
-
-        // check for max vertical speed caps
-        if (rb.velocity.y > MAX_VERTICAL_SPEED)
-            rb.velocity = new Vector2(rb.velocity.x, MAX_VERTICAL_SPEED);
-        if (rb.velocity.y < -1 * MAX_FALLING_SPEED)
-            rb.velocity = new Vector2(rb.velocity.x, -1 * MAX_FALLING_SPEED);
 
         // DASH CONTROLS -----------------------------------------------------------------
 
@@ -213,7 +221,11 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = new Vector2(-1 * DASH_SPEED * Mathf.Sqrt(2) / 2.0f, DASH_SPEED * Mathf.Sqrt(2) / 2.0f);
                     break;
                 case InputHelper.OctoDirection.None:
-                    rb.velocity = new Vector2(0, 0);
+                    // defaults to dashing in the direction you are facing
+                    if(facing == Side.Left)
+                        rb.velocity = new Vector2(-1 * DASH_SPEED, 0);
+                    else if(facing == Side.Right)
+                        rb.velocity = new Vector2(DASH_SPEED, 0);
                     break;
             }
 
