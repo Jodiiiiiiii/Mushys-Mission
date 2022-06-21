@@ -1,4 +1,5 @@
 using UnityEngine;
+using static InputHelper;
 
 /// <summary>
 /// Controls all player movement and controls
@@ -22,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private const float MAX_HORIZONTAL_SPEED = 5f;
     private const float MAX_VERTICAL_SPEED = 5f;
     private const float MAX_FALLING_SPEED = 10f;
+    // dashing
+    private const float DASH_SPEED = 10f;
+    private const float DASH_TIME = 0.15f;
+    private const float DASH_COOLDOWN = 5.0f;
 
     // components
     private Rigidbody2D rb;
@@ -30,10 +35,16 @@ public class PlayerController : MonoBehaviour
     // Unity variables
     [SerializeField] private LayerMask platformMask;
 
-    // member variables
+    // jump variables
     private bool isJumping = false;
     private Side jumpSide = Side.None;
-    [SerializeField] private float jumpTimer = 0;
+    private float jumpTimer = 0;
+
+    // dash variables
+    private bool isDashing = false;
+    private OctoDirection dashDirection = OctoDirection.None;
+    private float dashTimer = 0;
+    private float dashCooldownTimer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +85,7 @@ public class PlayerController : MonoBehaviour
         // JUMPING CONTROLS ------------------------------------------------------------------
 
         // grounded jump startup
-        if (IsGrounded() && InputHelper.GetUpPress())
+        if (IsGrounded() && InputHelper.GetSpacePress())
         {
             // set initial jumping state
             isJumping = true; 
@@ -86,7 +97,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // right wall jump startup
-        if (IsTouchingRightWall() && InputHelper.GetUpPress() && !IsGrounded())
+        if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
         {
             // set initial jumping state
             isJumping = true;
@@ -98,7 +109,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // left wall jump startup
-        if (IsTouchingLeftWall() && InputHelper.GetUpPress() && !IsGrounded())
+        if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
         {
             // set initial jumping state
             isJumping = true;
@@ -130,7 +141,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // end jumping on key release or timer end
-            if (jumpTimer >= MAX_JUMP_TIME || !InputHelper.GetUp())
+            if (jumpTimer > MAX_JUMP_TIME || !InputHelper.GetUp())
             {
                 isJumping = false;
             }
@@ -159,6 +170,64 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, MAX_VERTICAL_SPEED);
         if (rb.velocity.y < -1 * MAX_FALLING_SPEED)
             rb.velocity = new Vector2(rb.velocity.x, -1 * MAX_FALLING_SPEED);
+
+        // DASH CONTROLS -----------------------------------------------------------------
+
+        // dash startup
+        if(InputHelper.GetShiftPress() && dashCooldownTimer <= 0)
+        {
+            isDashing = true;
+            dashDirection = InputHelper.GetOctoDirectionHeld();
+            dashTimer = 0;
+            dashCooldownTimer = DASH_COOLDOWN;
+        }
+
+        // continues dash until dash terminates
+        if(isDashing)
+        {
+            switch (dashDirection)
+            {
+                // set speed in appropriate direction (multiple by root 2 over 2 for diagonals)
+                case InputHelper.OctoDirection.Up:
+                    rb.velocity = new Vector2(0, DASH_SPEED);
+                    break;
+                case InputHelper.OctoDirection.UpRight:
+                    rb.velocity = new Vector2(DASH_SPEED* Mathf.Sqrt(2)/2.0f, DASH_SPEED * Mathf.Sqrt(2) / 2.0f);
+                    break;
+                case InputHelper.OctoDirection.Right:
+                    rb.velocity = new Vector2(DASH_SPEED, 0);
+                    break;
+                case InputHelper.OctoDirection.DownRight:
+                    rb.velocity = new Vector2(DASH_SPEED * Mathf.Sqrt(2) / 2.0f, -1 * DASH_SPEED * Mathf.Sqrt(2) / 2.0f);
+                    break;
+                case InputHelper.OctoDirection.Down:
+                    rb.velocity = new Vector2(0, -1 * DASH_SPEED);
+                    break;
+                case InputHelper.OctoDirection.DownLeft:
+                    rb.velocity = new Vector2(-1 * DASH_SPEED * Mathf.Sqrt(2) / 2.0f, -1 * DASH_SPEED * Mathf.Sqrt(2) / 2.0f);
+                    break;
+                case InputHelper.OctoDirection.Left:
+                    rb.velocity = new Vector2(-1 * DASH_SPEED, 0);
+                    break;
+                case InputHelper.OctoDirection.UpLeft:
+                    rb.velocity = new Vector2(-1 * DASH_SPEED * Mathf.Sqrt(2) / 2.0f, DASH_SPEED * Mathf.Sqrt(2) / 2.0f);
+                    break;
+                case InputHelper.OctoDirection.None:
+                    rb.velocity = new Vector2(0, 0);
+                    break;
+            }
+
+            // timer for ending dash
+            dashTimer += Time.deltaTime;
+            if(dashTimer > DASH_TIME)
+            {
+                isDashing = false;
+            }
+        }
+
+        // reduce dash cooldown by time that passed
+        if (dashCooldownTimer > 0)
+            dashCooldownTimer -= Time.deltaTime;
 
     }
 
@@ -242,5 +311,16 @@ public class PlayerController : MonoBehaviour
         Left, 
         Right, 
         None
+    }
+    
+    /// <summary>
+    /// Returns a float between 0 and 1. 0 indicates no cooldown remaining. 1 indicates full cooldown remaining
+    /// </summary>
+    public float GetDashCooldownPercentage()
+    {
+        if (dashCooldownTimer < 0)
+            return 0;
+        else
+            return dashCooldownTimer / DASH_COOLDOWN;
     }
 }
