@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     // facing variable
     private Side facing = Side.Right;
+    private Side prevFacing = Side.Right;
 
     // jump variables
     private bool isJumping = false;
@@ -70,19 +71,29 @@ public class PlayerController : MonoBehaviour
             // Apply forces
             if (InputHelper.GetRightOnly())
             {
-                facing = Side.Right;
                 if (IsGrounded())
+                {
+                    facing = Side.Right;
                     rb.AddForce(new Vector2(GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                }
                 else if (!isJumping || jumpSide != Side.Left) // prevents climbing up right walls
+                {
+                    facing = Side.Right;
                     rb.AddForce(new Vector2(AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                }
             }
             else if (InputHelper.GetLeftOnly())
             {
-                facing = Side.Left;
                 if (IsGrounded())
+                {
                     rb.AddForce(new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                    facing = Side.Left;
+                }
                 else if (!isJumping || jumpSide != Side.Right) // prevents climbing up left walls
+                { 
                     rb.AddForce(new Vector2(-AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                    facing = Side.Left;
+                }
             }
             else if (IsGrounded()) // instantly stops player if grounded with no horizontal inputs
             {
@@ -110,6 +121,7 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
                 jumpTimer = 0;
                 jumpSide = Side.Left;
+                facing = Side.Left;
 
                 // apply initial jump velocity
                 rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
@@ -122,6 +134,7 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
                 jumpTimer = 0;
                 jumpSide = Side.Right;
+                facing = Side.Right;
 
                 // apply initial jump velocity
                 rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
@@ -156,9 +169,19 @@ public class PlayerController : MonoBehaviour
 
             // SLIDING CONTROLS -------------------------------------------------------------- 
 
-            // apply sliding friction and cap sliding speed if sliding down a wall
-            if ((IsTouchingRightWall() || IsTouchingLeftWall()) && rb.velocity.y < 0)
+            // apply sliding friction and cap sliding speed if sliding down a right wall
+            if (IsTouchingRightWall() && rb.velocity.y < 0)
             {
+                facing = Side.Right;
+                rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
+                if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
+                    rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
+            }
+
+            // apply sliding friction and cap sliding speed if sliding down a Left wall
+            if (IsTouchingLeftWall() && rb.velocity.y < 0)
+            {
+                facing = Side.Left;
                 rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
                 if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
                     rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
@@ -241,6 +264,10 @@ public class PlayerController : MonoBehaviour
         if (dashCooldownTimer > 0)
             dashCooldownTimer -= Time.deltaTime;
 
+        // Update orientation based on facing direction
+        if (facing != prevFacing)
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        prevFacing = facing;
     }
 
     /// <summary>
