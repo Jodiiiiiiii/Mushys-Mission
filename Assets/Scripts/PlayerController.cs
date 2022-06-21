@@ -169,9 +169,8 @@ public class PlayerController : MonoBehaviour
     private bool IsTouchingRightWall()
     {
         // send box cast below player
-        const float horizontalCheckRange = 0.1f; // the amount that the boxcast sticks off the right side of the player box
-        const float verticalAdjustment = 0.1f; // the amount of vertical terim on each side of the player box to yield the vertical size of the boxcast
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, 0), new Vector2(box.bounds.extents.x, (box.bounds.extents.y - verticalAdjustment) * 2.0f), 0f, Vector2.right, horizontalCheckRange, platformMask);
+        const float horizontalCheckRange = 0.03f; // the amount that the boxcast sticks off the right side of the player box
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.right, horizontalCheckRange, platformMask);
 
         // determine color for collider debug render
         Color rayColor;
@@ -181,9 +180,9 @@ public class PlayerController : MonoBehaviour
             rayColor = Color.red; // no collision
 
         // render collider box for debug mode
-        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, box.bounds.extents.y - verticalAdjustment), Vector2.right * (box.bounds.extents.x / 2.0f + horizontalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, -box.bounds.extents.y + verticalAdjustment), Vector2.right * (box.bounds.extents.x / 2.0f + horizontalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x + horizontalCheckRange, box.bounds.extents.y - verticalAdjustment), Vector2.down * ((box.bounds.extents.y - verticalAdjustment) * 2), rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x, box.bounds.extents.y), Vector2.right * horizontalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x, -box.bounds.extents.y), Vector2.right * horizontalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x + horizontalCheckRange, box.bounds.extents.y), Vector2.down * box.bounds.size.y, rayColor);
         // return if boxcast hit a platform
         return raycastHit.collider != null;
     }
@@ -195,9 +194,8 @@ public class PlayerController : MonoBehaviour
     private bool IsTouchingLeftWall()
     {
         // send box cast below player
-        const float horizontalCheckRange = 0.1f; // the amount that the boxcast sticks off the left side of the player box
-        const float verticalAdjustment = 0.1f; // the amount of vertical trim on each side of the player box to yield the vertical size of the boxcast
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(-box.bounds.extents.x/2.0f, 0), new Vector2(box.bounds.extents.x, (box.bounds.extents.y - verticalAdjustment) * 2.0f), 0f, Vector2.left, horizontalCheckRange, platformMask);
+        const float horizontalCheckRange = 0.03f; // the amount that the boxcast sticks off the left side of the player box
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(-box.bounds.extents.x/2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.left, horizontalCheckRange, platformMask);
 
         // determine color for collider debug render
         Color rayColor;
@@ -206,9 +204,9 @@ public class PlayerController : MonoBehaviour
         else
             rayColor = Color.red; // no collision
         // render collider box for debug mode
-        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x / 2.0f, box.bounds.extents.y - verticalAdjustment), Vector2.left * (box.bounds.extents.x/2.0f + horizontalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x / 2.0f, -box.bounds.extents.y + verticalAdjustment), Vector2.left * (box.bounds.extents.x/2.0f + horizontalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x - horizontalCheckRange, box.bounds.extents.y - verticalAdjustment), Vector2.down * ((box.bounds.extents.y - verticalAdjustment) * 2), rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x, box.bounds.extents.y), Vector2.left * horizontalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x, -box.bounds.extents.y), Vector2.left * horizontalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x - horizontalCheckRange, box.bounds.extents.y), Vector2.down * box.bounds.size.y, rayColor);
 
         // return if boxcast hit a platform
         return raycastHit.collider != null;
@@ -221,20 +219,19 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         // send box cast below player
-        const float verticalCheckRange = 0.1f; // the amount that the boxcast sticks off the bottom of the player box
-        const float horizontalAdjustment = 0.1f; // the amount of horizontal trim on each side of the player box to yield the horizontal size of the boxcast
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center - new Vector3(0, box.bounds.size.y/4.0f), new Vector2((box.bounds.extents.x - horizontalAdjustment) * 2.0f, box.bounds.extents.y), 0f, Vector2.down, verticalCheckRange, platformMask);
+        const float verticalCheckRange = 0.03f; // the amount that the boxcast sticks off the bottom of the player box
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center - new Vector3(0, box.bounds.size.y/4.0f), new Vector2(box.bounds.size.x, box.bounds.extents.y), 0f, Vector2.down, verticalCheckRange, platformMask);
 
         // determine color for collider debug render
         Color rayColor;
-        if(raycastHit.collider != null)            
-            rayColor = Color.green; // successful collision
+        if(raycastHit.collider != null)
+            rayColor = Color.green; // successful collision   
         else
             rayColor = Color.red; // no collision
         // render collider box for debug mode
-        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x + horizontalAdjustment, -box.bounds.size.y/4.0f), Vector2.down * (box.bounds.extents.y/2.0f + verticalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x - horizontalAdjustment, -box.bounds.size.y/4.0f), Vector2.down * (box.bounds.extents.y/2.0f + verticalCheckRange), rayColor);
-        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x + horizontalAdjustment, -box.bounds.extents.y - verticalCheckRange), Vector2.right * ((box.bounds.extents.x - horizontalAdjustment) * 2), rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x, -box.bounds.extents.y), Vector2.down * verticalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x, -box.bounds.extents.y), Vector2.down * verticalCheckRange, rayColor);
+        Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x, -box.bounds.extents.y - verticalCheckRange), Vector2.right * box.bounds.size.x, rayColor);
 
         // return if boxcast hit a platform
         return raycastHit.collider != null;
