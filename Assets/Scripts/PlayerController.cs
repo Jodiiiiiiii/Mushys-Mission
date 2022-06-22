@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static InputHelper;
 
 /// <summary>
@@ -8,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     // CONSTANTS
     // universal
-    private const float GRAVITY_MULTIPLIER = 2f;
+    private const float GRAVITY_FORCE = 19.62f;
     // horizontal controls
     private const float GROUNDED_HORIZONTAL_FORCE = 2.5f;
     private const float AERIAL_HORIZONTAL_FORCE = 2.0f;
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
 
         // instantiation
-        Physics2D.gravity *= GRAVITY_MULTIPLIER;
+        Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
     }
 
     // Update is called once per frame
@@ -268,6 +269,13 @@ public class PlayerController : MonoBehaviour
         if (facing != prevFacing)
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         prevFacing = facing;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // reload scene when contacting a hazard
+        if (collision.CompareTag("Hazard"))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     /// <summary>
