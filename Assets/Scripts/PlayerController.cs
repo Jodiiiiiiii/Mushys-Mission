@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     // Unity variables
     [SerializeField] private LayerMask platformMask;
 
+    // Managers
+    private SaveManager saveManager;
+
     // facing variable
     private Side facing = Side.Right;
     private Side prevFacing = Side.Right;
@@ -58,8 +61,14 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
 
+        // create managers
+        saveManager = GameObject.Find("SaveManager").GetComponent<SaveManager>();
+
         // instantiation
         Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
+
+        // assign player position to appropriate spawn point
+        transform.position = saveManager.GetSpawnPoint();
     }
 
     // Update is called once per frame
@@ -276,6 +285,13 @@ public class PlayerController : MonoBehaviour
         // reload scene when contacting a hazard
         if (collision.CompareTag("Hazard"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+
+        // update save point and scene in save manager 
+        if(collision.CompareTag("SpawnPoint"))
+        {
+            saveManager.SetSpawnPoint(collision.transform.position);
+            saveManager.SetSceneIndex(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     /// <summary>

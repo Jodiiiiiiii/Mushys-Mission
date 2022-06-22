@@ -118,6 +118,9 @@ public static class InputHelper
             return OctoDirection.None;
     }
 
+    /// <summary>
+    /// Enumeration including eight directions and "None"
+    /// </summary>
     public enum OctoDirection
     {
         Up,

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hazard
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -50,4 +51,7 @@ TagManager:
     locked: 0
   - name: Platforms
     uniqueID: 1550697611
+    locked: 0
+  - name: SpawnPoints
+    uniqueID: 473302221
     locked: 0
