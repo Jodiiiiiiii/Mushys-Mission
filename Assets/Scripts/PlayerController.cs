@@ -67,6 +67,11 @@ public class PlayerController : MonoBehaviour
         // instantiation
         Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
 
+        // load correct starting scene if applicable
+        if(saveManager.GetSceneIndex() != SceneManager.GetActiveScene().buildIndex)
+        {
+            SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
+        }
         // assign player position to appropriate spawn point
         transform.position = saveManager.GetSpawnPoint();
     }
@@ -284,13 +289,33 @@ public class PlayerController : MonoBehaviour
     {
         // reload scene when contacting a hazard
         if (collision.CompareTag("Hazard"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        {
+            // reload current scene
+            SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
+        }
 
         // update save point and scene in save manager 
         if(collision.CompareTag("SpawnPoint"))
         {
             saveManager.SetSpawnPoint(collision.transform.position);
-            saveManager.SetSceneIndex(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        // load new scene when encountering a transition
+        if(collision.CompareTag("Transition"))
+        {
+            if(collision.TryGetComponent<TransitionData>(out TransitionData transitionData))
+            {
+                // set new scene and spawnPoint in saveManager
+                saveManager.SetSceneIndex(transitionData.sceneNum);
+                saveManager.SetSpawnPoint(transitionData.position);
+                // load new scene
+                SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
+            }
+            else
+            {
+                // ensures proper use of transition tag
+                throw new System.Exception("Invalid use of 'Transition' tag");
+            }
         }
     }
 

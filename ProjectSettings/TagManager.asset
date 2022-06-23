@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hazard
   - SpawnPoint
+  - Transition
   layers:
   - Default
   - TransparentFX
@@ -52,6 +53,6 @@ TagManager:
   - name: Platforms
     uniqueID: 1550697611
     locked: 0
-  - name: SpawnPoints
+  - name: Triggers
     uniqueID: 473302221
     locked: 0
