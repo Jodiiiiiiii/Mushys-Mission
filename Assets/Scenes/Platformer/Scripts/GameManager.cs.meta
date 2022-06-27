@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 9193569da3aaf394d8c611dd2815b36f
+guid: 7ed40bc111be3e34196cb721a4bd7353
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - platformerCanvas: {fileID: 6179190579657682609, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

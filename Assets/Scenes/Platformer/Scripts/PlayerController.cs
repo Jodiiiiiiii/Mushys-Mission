@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static InputHelper;
 
 /// <summary>
@@ -8,8 +7,6 @@ using static InputHelper;
 public class PlayerController : MonoBehaviour
 {
     // CONSTANTS
-    // universal
-    private const float GRAVITY_FORCE = 19.62f;
     // horizontal controls
     private const float GROUNDED_HORIZONTAL_FORCE = 2.5f;
     private const float AERIAL_HORIZONTAL_FORCE = 2.0f;
@@ -29,15 +26,15 @@ public class PlayerController : MonoBehaviour
     private const float DASH_TIME = 0.2f;
     private const float DASH_COOLDOWN = 5.0f;
 
+    // Managers
+    private GameManager gameManager;
+
     // components
     private Rigidbody2D rb;
     private BoxCollider2D box;
 
     // Unity variables
     [SerializeField] private LayerMask platformMask;
-
-    // Managers
-    private SaveManager saveManager;
 
     // facing variable
     private Side facing = Side.Right;
@@ -57,23 +54,15 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // create managers
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         // component
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
 
-        // create managers
-        saveManager = GameObject.Find("SaveManager").GetComponent<SaveManager>();
-
-        // instantiation
-        Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
-
-        // load correct starting scene if applicable
-        if(saveManager.GetSceneIndex() != SceneManager.GetActiveScene().buildIndex)
-        {
-            SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
-        }
         // assign player position to appropriate spawn point
-        transform.position = saveManager.GetSpawnPoint();
+        transform.position = gameManager.GetSpawnPoint();
     }
 
     // Update is called once per frame
@@ -290,26 +279,21 @@ public class PlayerController : MonoBehaviour
         // reload scene when contacting a hazard
         if (collision.CompareTag("Hazard"))
         {
-            // reload current scene
-            SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
+            gameManager.HazardCollision();
         }
 
         // update save point and scene in save manager 
         if(collision.CompareTag("SpawnPoint"))
         {
-            saveManager.SetSpawnPoint(collision.transform.position);
+            gameManager.SetSpawnPoint(collision.transform.position);
         }
 
         // load new scene when encountering a transition
         if(collision.CompareTag("Transition"))
         {
-            if(collision.TryGetComponent<TransitionData>(out TransitionData transitionData))
+            if(collision.TryGetComponent(out TransitionData transitionData))
             {
-                // set new scene and spawnPoint in saveManager
-                saveManager.SetSceneIndex(transitionData.sceneNum);
-                saveManager.SetSpawnPoint(transitionData.position);
-                // load new scene
-                SceneManager.LoadScene(saveManager.GetSceneIndex(), LoadSceneMode.Single);
+                gameManager.TransitionScene(transitionData);
             }
             else
             {
