@@ -8,12 +8,37 @@ public class HealthIndicator : MonoBehaviour
     // managers
     private GameManager gameManager;
 
+    // variables
+    private int prevHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         // managers
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
+        // variables
+        prevHealth = gameManager.GetHealth();
+
+        // sets initial state of health
+        UpdateHealthIndicator();
+    }
+
+    private void Update()
+    {
+        // updates health indicator if health changes without reloading scene (e.g. restoration station)
+        if (prevHealth != gameManager.GetHealth())
+            UpdateHealthIndicator();
+
+        // set previous state of health at the end
+        prevHealth = gameManager.GetHealth();
+    }
+
+    /// <summary>
+    /// sets health indicator to display current amount of health (0 through 9)
+    /// </summary>
+    private void UpdateHealthIndicator()
+    {
         switch (gameManager.GetHealth())
         {
             case 9:

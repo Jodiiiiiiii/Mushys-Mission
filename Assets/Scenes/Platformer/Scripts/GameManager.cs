@@ -161,6 +161,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// resets health to maximum
+    /// </summary>
+    public void RestoreHealth()
+    {
+        data.health = 9;
+    }
+
+    /// <summary>
     /// initializes save data to a default state (useful for if save file is missing or game state is reset after a game over)
     /// </summary>
     public void InitializeDefaultSaveData()

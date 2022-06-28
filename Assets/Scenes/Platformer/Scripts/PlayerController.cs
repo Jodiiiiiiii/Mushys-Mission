@@ -301,6 +301,12 @@ public class PlayerController : MonoBehaviour
                 throw new System.Exception("Invalid use of 'Transition' tag");
             }
         }
+
+        // restore health when encountering a restoration station
+        if (collision.CompareTag("Restoration"))
+        {
+            gameManager.RestoreHealth();
+        }
     }
 
     /// <summary>
