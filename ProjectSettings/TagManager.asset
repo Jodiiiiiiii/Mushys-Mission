@@ -7,6 +7,7 @@ TagManager:
   - Hazard
   - SpawnPoint
   - Transition
+  - Restoration
   layers:
   - Default
   - TransparentFX
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: Triggers
     uniqueID: 473302221
+    locked: 0
+  - name: UI
+    uniqueID: 311058875
     locked: 0

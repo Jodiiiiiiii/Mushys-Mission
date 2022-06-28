@@ -23,9 +23,6 @@ public class GameManager : MonoBehaviour
     }
     private SaveData data;
 
-    // canvas
-    [SerializeField] private GameObject platformerCanvas;
-
     // UNITY METHODS ----------------------------------------------------------------------------
 
     private void Awake() // called each time a scene is loaded/reloaded
@@ -66,29 +63,6 @@ public class GameManager : MonoBehaviour
 
         // physics instantiation
         Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
-    }
-
-    private void OnEnable() // called when script instance is made
-    {
-        // set OnSceneLoaded as the method that is called when the sceneLoaded event occurs
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable() // called when script instance is disabled
-    {
-        // removes OnSceneLoaded from event listener
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    /// <summary>
-    /// called when a new scene is loaded
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // load UI elements (WHERE DOES THIS GO?!?!?!?)
-        Instantiate(platformerCanvas);
     }
 
     private void OnApplicationQuit()
