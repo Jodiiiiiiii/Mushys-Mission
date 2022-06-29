@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     // CONSTANTS
     // horizontal controls
-    private const float GROUNDED_HORIZONTAL_FORCE = 2.5f;
-    private const float AERIAL_HORIZONTAL_FORCE = 2.0f;
+    private const float GROUNDED_HORIZONTAL_FORCE = 30f;
+    private const float AERIAL_HORIZONTAL_FORCE = 17f;
     // jumping
     private const float INIT_JUMP_SPEED = 5f;
-    private const float JUMP_FORCE = 5f;
+    private const float JUMP_FORCE = 35f;
     private const float MAX_JUMP_TIME = 0.17f;
     // sliding
-    private const float SLIDING_FORCE = 1.5f;
+    private const float SLIDING_FORCE = 15f;
     private const float MAX_SLIDING_SPEED = 2f;
     // max speeds
     private const float MAX_HORIZONTAL_SPEED = 5f;
@@ -51,6 +51,9 @@ public class PlayerController : MonoBehaviour
     private float dashTimer = 0;
     private float dashCooldownTimer = 0;
 
+    // physics variables
+    private Vector2 forceSum;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +71,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isDashing) // only allows movement, jumping, sliding, speed capping, etc. while not dashinga
+        // reset force sum for each loop
+        forceSum = new Vector2(0, 0);
+
+        if (!isDashing) // only allows movement, jumping, sliding, speed capping, etc. while not dashinga
         {
             // HORIZONTAL CONTROLS ----------------------------------------------------------------
 
@@ -78,25 +84,25 @@ public class PlayerController : MonoBehaviour
                 if (IsGrounded())
                 {
                     facing = Side.Right;
-                    rb.AddForce(new Vector2(GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                    forceSum += new Vector2(GROUNDED_HORIZONTAL_FORCE, 0);
                 }
                 else if (!isJumping || jumpSide != Side.Left) // prevents climbing up right walls
                 {
                     facing = Side.Right;
-                    rb.AddForce(new Vector2(AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
+                    forceSum += new Vector2(AERIAL_HORIZONTAL_FORCE, 0);
                 }
             }
             else if (InputHelper.GetLeftOnly())
             {
                 if (IsGrounded())
                 {
-                    rb.AddForce(new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
                     facing = Side.Left;
+                    forceSum += new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0);
                 }
                 else if (!isJumping || jumpSide != Side.Right) // prevents climbing up left walls
                 { 
-                    rb.AddForce(new Vector2(-AERIAL_HORIZONTAL_FORCE, 0), ForceMode2D.Force);
                     facing = Side.Left;
+                    forceSum += new Vector2(-AERIAL_HORIZONTAL_FORCE, 0);
                 }
             }
             else if (IsGrounded()) // instantly stops player if grounded with no horizontal inputs
@@ -154,13 +160,13 @@ public class PlayerController : MonoBehaviour
                 switch (jumpSide)
                 {
                     case Side.Left:
-                        rb.AddForce(new Vector2(-1 * JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
+                        forceSum += new Vector2(-1 * JUMP_FORCE, JUMP_FORCE);
                         break;
                     case Side.Right:
-                        rb.AddForce(new Vector2(JUMP_FORCE, JUMP_FORCE), ForceMode2D.Force);
+                        forceSum += new Vector2(JUMP_FORCE, JUMP_FORCE);
                         break;
                     case Side.None:
-                        rb.AddForce(new Vector2(0, JUMP_FORCE), ForceMode2D.Force);
+                        forceSum += new Vector2(0, JUMP_FORCE);
                         break;
                 }
 
@@ -177,7 +183,7 @@ public class PlayerController : MonoBehaviour
             if (IsTouchingRightWall() && rb.velocity.y < 0)
             {
                 facing = Side.Right;
-                rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
+                forceSum += new Vector2(0, SLIDING_FORCE);
                 if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
                     rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
             }
@@ -186,7 +192,7 @@ public class PlayerController : MonoBehaviour
             if (IsTouchingLeftWall() && rb.velocity.y < 0)
             {
                 facing = Side.Left;
-                rb.AddForce(new Vector2(0, -1 * SLIDING_FORCE), ForceMode2D.Force);
+                forceSum += new Vector2(0, SLIDING_FORCE);
                 if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
                     rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
             }
@@ -272,6 +278,16 @@ public class PlayerController : MonoBehaviour
         if (facing != prevFacing)
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         prevFacing = facing;
+    }
+
+    private void FixedUpdate()
+    {
+        // no physics calculations occur while dashing because the player is moving at a set velocity
+        if(!isDashing)
+        {
+            // apply all applicable forces
+            rb.AddForce(forceSum, ForceMode2D.Force);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
