@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Platformer/SceneInstances/Scene1.unity
     guid: 0860dff58b0e6b3409967ba1042dcfb9
   - enabled: 0
-    path: Assets/Scenes/Platformer/PlatformerScreenTemplate.unity
+    path: Assets/Scenes/Platformer/PlatformerSceneTemplate.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 0
     path: 
