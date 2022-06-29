@@ -386,7 +386,7 @@ MonoBehaviour:
   platformerCanvas: {fileID: 6179190579657682609, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
   leftBound: -3.43
   rightBound: 3.43
-  topBound: 3.22
+  topBound: 2.35
   bottomBound: 2.35
 --- !u!81 &123168169
 AudioListener:
@@ -2218,8 +2218,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959268608}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -0.1, z: 0}
-  m_LocalScale: {x: 37.284256, y: 11.488, z: 1}
+  m_LocalPosition: {x: 0.04, y: 1.9074, z: 0}
+  m_LocalScale: {x: 37.284256, y: 15.503056, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
