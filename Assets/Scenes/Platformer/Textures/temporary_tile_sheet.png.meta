@@ -526,7 +526,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: -8}
+        - {x: 4, y: -8}
+        - {x: 4, y: -1}
+        - {x: -8, y: -1}
       tessellationDetail: 0
       bones: []
       spriteID: 6f0b962729595cf4ea0d421b01fca13c
@@ -2182,8 +2186,8 @@ TextureImporter:
       name: sheet_98
       rect:
         serializedVersion: 2
-        x: 208
-        y: 112
+        x: 180
+        y: 142
         width: 16
         height: 16
       alignment: 0
@@ -4353,7 +4357,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: 1}
+        - {x: -4, y: -8}
+        - {x: 5, y: -8}
+        - {x: 5, y: 0}
+        - {x: 0, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: dbb11f9904b56e340836b47cfcee13b1
