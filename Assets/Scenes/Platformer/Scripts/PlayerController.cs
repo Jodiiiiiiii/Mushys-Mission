@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     // horizontal controls
     private const float GROUNDED_HORIZONTAL_FORCE = 30f;
     private const float AERIAL_HORIZONTAL_FORCE = 17f;
+    private const float GROUNDED_FRICTION_FORCE = 50f;
+    private const float GROUNDED_STOPPING_THRESHOLD = 0.5f;
     // jumping
     private const float INIT_JUMP_SPEED = 5f;
     private const float JUMP_FORCE = 35f;
@@ -33,8 +35,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D box;
 
-    // Unity variables
-    [SerializeField] private LayerMask platformMask;
+    // layer masks
+    [SerializeField] private LayerMask standardPlatformMask; // does not include one-way platforms
+    [SerializeField] private LayerMask allPlatformsMask;
 
     // facing variable
     private Side facing = Side.Right;
@@ -81,7 +84,7 @@ public class PlayerController : MonoBehaviour
             // Apply forces
             if (InputHelper.GetRightOnly())
             {
-                if (IsGrounded())
+                if (IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001) // prevents grounded controls while within one-way platform
                 {
                     facing = Side.Right;
                     forceSum += new Vector2(GROUNDED_HORIZONTAL_FORCE, 0);
@@ -94,7 +97,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (InputHelper.GetLeftOnly())
             {
-                if (IsGrounded())
+                if (IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001) // prevents grounded controls while within one-way platform
                 {
                     facing = Side.Left;
                     forceSum += new Vector2(-GROUNDED_HORIZONTAL_FORCE, 0);
@@ -105,53 +108,68 @@ public class PlayerController : MonoBehaviour
                     forceSum += new Vector2(-AERIAL_HORIZONTAL_FORCE, 0);
                 }
             }
-            else if (IsGrounded()) // instantly stops player if grounded with no horizontal inputs
+            // apply friction to stop player sliding
+            else if (IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001) // prevents grounded friction while within one-way platform
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                if(rb.velocity.x < -1 * GROUNDED_STOPPING_THRESHOLD)
+                {
+                    forceSum += new Vector2(GROUNDED_FRICTION_FORCE, 0);
+                }
+                else if(rb.velocity.x > GROUNDED_STOPPING_THRESHOLD)
+                {
+                    forceSum -= new Vector2(GROUNDED_FRICTION_FORCE, 0);
+                }
+                else // stops player completely if at a very small speed (grounded stopping threshold)
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
             }
 
             // JUMPING CONTROLS ------------------------------------------------------------------
-
-            // grounded jump startup
-            if (IsGrounded() && InputHelper.GetSpacePress())
+            
+            if(!isJumping)
             {
-                // set initial jumping state
-                isJumping = true;
-                jumpTimer = 0;
-                jumpSide = Side.None;
+                
+                // grounded jump startup
+                if (IsGrounded() && InputHelper.GetSpacePress() && Mathf.Abs(rb.velocity.y) <= 0.001) // prevents grounded jump while within one-way platform (possible edge case exactly at the peak of vertical movement)
+                {
+                    // set initial jumping state
+                    isJumping = true;
+                    jumpTimer = 0;
+                    jumpSide = Side.None;
 
-                // apply initial jump velocity
-                rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
+                    // apply initial jump velocity
+                    rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
+                }
+
+                // right wall jump startup
+                if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
+                {
+                    Debug.Log(IsGrounded());
+                    // set initial jumping state
+                    isJumping = true;
+                    jumpTimer = 0;
+                    jumpSide = Side.Left;
+                    facing = Side.Left;
+
+                    // apply initial jump velocity
+                    rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+                }
+
+                // left wall jump startup
+                if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
+                {
+                    // set initial jumping state
+                    isJumping = true;
+                    jumpTimer = 0;
+                    jumpSide = Side.Right;
+                    facing = Side.Right;
+
+                    // apply initial jump velocity
+                    rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+                }
             }
-
-            // right wall jump startup
-            if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
-            {
-                // set initial jumping state
-                isJumping = true;
-                jumpTimer = 0;
-                jumpSide = Side.Left;
-                facing = Side.Left;
-
-                // apply initial jump velocity
-                rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
-            }
-
-            // left wall jump startup
-            if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
-            {
-                // set initial jumping state
-                isJumping = true;
-                jumpTimer = 0;
-                jumpSide = Side.Right;
-                facing = Side.Right;
-
-                // apply initial jump velocity
-                rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
-            }
-
-            // controls to apply jumping force and continue jump
-            if (isJumping)
+            else // controls to apply jumping force and continue jump
             {
                 // increment jump timer
                 jumpTimer += Time.deltaTime;
@@ -185,7 +203,7 @@ public class PlayerController : MonoBehaviour
                 facing = Side.Right;
                 forceSum += new Vector2(0, SLIDING_FORCE);
                 if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
-                    rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
+                    rb.velocity = new Vector2(rb.velocity.x, -1 * MAX_SLIDING_SPEED);
             }
 
             // apply sliding friction and cap sliding speed if sliding down a Left wall
@@ -194,7 +212,7 @@ public class PlayerController : MonoBehaviour
                 facing = Side.Left;
                 forceSum += new Vector2(0, SLIDING_FORCE);
                 if (rb.velocity.y < -1 * MAX_SLIDING_SPEED)
-                    rb.velocity = new Vector2(0, -1 * MAX_SLIDING_SPEED);
+                    rb.velocity = new Vector2(rb.velocity.x, -1 * MAX_SLIDING_SPEED);
             }
 
             // MAX SPEED CAPS -----------------------------------------------------------------
@@ -333,7 +351,7 @@ public class PlayerController : MonoBehaviour
     {
         // send box cast below player
         const float horizontalCheckRange = 0.03f; // the amount that the boxcast sticks off the right side of the player box
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.right, horizontalCheckRange, platformMask);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(box.bounds.extents.x / 2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.right, horizontalCheckRange, standardPlatformMask);
 
         // determine color for collider debug render
         Color rayColor;
@@ -346,6 +364,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x, box.bounds.extents.y), Vector2.right * horizontalCheckRange, rayColor);
         Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x, -box.bounds.extents.y), Vector2.right * horizontalCheckRange, rayColor);
         Debug.DrawRay(box.bounds.center + new Vector3(box.bounds.extents.x + horizontalCheckRange, box.bounds.extents.y), Vector2.down * box.bounds.size.y, rayColor);
+
         // return if boxcast hit a platform
         return raycastHit.collider != null;
     }
@@ -358,7 +377,7 @@ public class PlayerController : MonoBehaviour
     {
         // send box cast below player
         const float horizontalCheckRange = 0.03f; // the amount that the boxcast sticks off the left side of the player box
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(-box.bounds.extents.x/2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.left, horizontalCheckRange, platformMask);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center + new Vector3(-box.bounds.extents.x/2.0f, 0), new Vector2(box.bounds.extents.x, box.bounds.size.y), 0f, Vector2.left, horizontalCheckRange, standardPlatformMask);
 
         // determine color for collider debug render
         Color rayColor;
@@ -383,7 +402,7 @@ public class PlayerController : MonoBehaviour
     {
         // send box cast below player
         const float verticalCheckRange = 0.03f; // the amount that the boxcast sticks off the bottom of the player box
-        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center - new Vector3(0, box.bounds.size.y/4.0f), new Vector2(box.bounds.size.x, box.bounds.extents.y), 0f, Vector2.down, verticalCheckRange, platformMask);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center - new Vector3(0, box.bounds.size.y/4.0f), new Vector2(box.bounds.size.x, box.bounds.extents.y), 0f, Vector2.down, verticalCheckRange, allPlatformsMask);
 
         // determine color for collider debug render
         Color rayColor;
@@ -397,7 +416,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(box.bounds.center + new Vector3(-box.bounds.extents.x, -box.bounds.extents.y - verticalCheckRange), Vector2.right * box.bounds.size.x, rayColor);
 
         // return if boxcast hit a platform
-        return raycastHit.collider != null;
+        return raycastHit.collider != null; 
     }
 
     private enum Side
