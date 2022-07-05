@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
             // SLIDING CONTROLS -------------------------------------------------------------- 
 
             // apply sliding friction and cap sliding speed if sliding down a right wall
-            if (IsTouchingRightWall() && rb.velocity.y < 0)
+            if (IsTouchingRightWall() && rb.velocity.y < 0 && InputHelper.GetRightOnly())
             {
                 facing = Side.Right;
                 forceSum += new Vector2(0, SLIDING_FORCE);
@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // apply sliding friction and cap sliding speed if sliding down a Left wall
-            if (IsTouchingLeftWall() && rb.velocity.y < 0)
+            if (IsTouchingLeftWall() && rb.velocity.y < 0 && InputHelper.GetLeftOnly())
             {
                 facing = Side.Left;
                 forceSum += new Vector2(0, SLIDING_FORCE);
