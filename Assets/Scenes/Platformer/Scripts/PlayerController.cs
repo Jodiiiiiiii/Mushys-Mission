@@ -145,7 +145,6 @@ public class PlayerController : MonoBehaviour
                 // right wall jump startup
                 if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
                 {
-                    Debug.Log(IsGrounded());
                     // set initial jumping state
                     isJumping = true;
                     jumpTimer = 0;
