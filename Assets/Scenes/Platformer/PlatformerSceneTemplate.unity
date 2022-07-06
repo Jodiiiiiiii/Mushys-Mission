@@ -1140,6 +1140,7 @@ GameObject:
   - component: {fileID: 965713438}
   - component: {fileID: 965713437}
   - component: {fileID: 965713436}
+  - component: {fileID: 965713442}
   m_Layer: 7
   m_Name: OneWayPlatforms
   m_TagString: Untagged
@@ -1176,7 +1177,7 @@ PlatformEffector2D:
     m_Bits: 4294967295
   m_RotationalOffset: 0
   m_UseOneWay: 1
-  m_UseOneWayGrouping: 0
+  m_UseOneWayGrouping: 1
   m_SurfaceArc: 178
   m_UseSideFriction: 0
   m_UseSideBounce: 0
@@ -1383,6 +1384,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &965713442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965713434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddef9ef11beb144290ec14829118503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &975344890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,7 +1755,7 @@ GameObject:
   - component: {fileID: 1932135989}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

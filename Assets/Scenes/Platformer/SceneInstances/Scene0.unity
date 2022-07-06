@@ -2249,7 +2249,7 @@ GameObject:
   - component: {fileID: 1932135989}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2981,6 +2981,7 @@ GameObject:
   - component: {fileID: 2065146947}
   - component: {fileID: 2065146946}
   - component: {fileID: 2065146945}
+  - component: {fileID: 2065146951}
   m_Layer: 7
   m_Name: OneWayPlatforms
   m_TagString: Untagged
@@ -3017,7 +3018,7 @@ PlatformEffector2D:
     m_Bits: 4294967295
   m_RotationalOffset: 0
   m_UseOneWay: 1
-  m_UseOneWayGrouping: 0
+  m_UseOneWayGrouping: 1
   m_SurfaceArc: 178
   m_UseSideFriction: 0
   m_UseSideBounce: 0
@@ -3042,28 +3043,20 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 2065146948}
     m_ColliderPaths:
-    - - X: -100
-        Y: -29999959
-      - X: -100
-        Y: -30625041
-      - X: -41
-        Y: -30625100
-      - X: 30000041
-        Y: -30625100
-      - X: 30000100
-        Y: -30625041
-      - X: 30000100
-        Y: -29999959
-      - X: 30000041
-        Y: -29999900
-      - X: -41
-        Y: -29999900
+    - - X: 0
+        Y: -30625000
+      - X: 30000000
+        Y: -30625000
+      - X: 30000000
+        Y: -30000000
+      - X: 0
+        Y: -30000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 2.9999747, y: -3.06251}
-      - {x: 2.9999747, y: -2.99999}
-      - {x: -0.00001, y: -3.0000253}
-      - {x: 0.0000252, y: -3.06251}
+    - - {x: 2.999971, y: -3.0625}
+      - {x: 2.999971, y: -3}
+      - {x: 0, y: -3.0000293}
+      - {x: 0.000029300001, y: -3.0625}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &2065146947
@@ -3274,6 +3267,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2065146951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065146943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddef9ef11beb144290ec14829118503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4142414150680389847
 PrefabInstance:
   m_ObjectHideFlags: 0
