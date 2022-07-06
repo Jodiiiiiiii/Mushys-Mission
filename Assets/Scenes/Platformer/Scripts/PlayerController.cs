@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     // CONSTANTS
     // horizontal controls
-    private const float GROUNDED_HORIZONTAL_FORCE = 30f;
-    private const float AERIAL_HORIZONTAL_FORCE = 17f;
-    private const float GROUNDED_FRICTION_FORCE = 50f;
-    private const float GROUNDED_STOPPING_THRESHOLD = 0.5f;
+    private const float GROUNDED_HORIZONTAL_FORCE = 45f;
+    private const float AERIAL_HORIZONTAL_FORCE = 23f;
+    private const float GROUNDED_FRICTION_FORCE = 70f;
+    private const float GROUNDED_STOPPING_THRESHOLD = 1f;
     // jumping
     private const float INIT_JUMP_SPEED = 5f;
     private const float MAX_JUMP_TIME = 0.2f;
@@ -167,10 +167,10 @@ public class PlayerController : MonoBehaviour
                 switch (jumpSide)
                 {
                     case Side.Left:
-                        rb.velocity = new Vector2(-1 * Mathf.Sqrt(2) * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+                        rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, Mathf.Sqrt(2)/2 * INIT_JUMP_SPEED);
                         break;
                     case Side.Right:
-                        rb.velocity = new Vector2(Mathf.Sqrt(2) * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
+                        rb.velocity = new Vector2(INIT_JUMP_SPEED, Mathf.Sqrt(2)/2 * INIT_JUMP_SPEED);
                         break;
                     case Side.None:
                         rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
