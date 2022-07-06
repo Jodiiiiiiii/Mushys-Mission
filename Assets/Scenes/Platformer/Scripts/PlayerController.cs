@@ -14,8 +14,7 @@ public class PlayerController : MonoBehaviour
     private const float GROUNDED_STOPPING_THRESHOLD = 0.5f;
     // jumping
     private const float INIT_JUMP_SPEED = 5f;
-    private const float JUMP_FORCE = 35f;
-    private const float MAX_JUMP_TIME = 0.17f;
+    private const float MAX_JUMP_TIME = 0.2f;
     // sliding
     private const float SLIDING_FORCE = 15f;
     private const float MAX_SLIDING_SPEED = 2f;
@@ -137,9 +136,6 @@ public class PlayerController : MonoBehaviour
                     isJumping = true;
                     jumpTimer = 0;
                     jumpSide = Side.None;
-
-                    // apply initial jump velocity
-                    rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
                 }
 
                 // right wall jump startup
@@ -150,9 +146,6 @@ public class PlayerController : MonoBehaviour
                     jumpTimer = 0;
                     jumpSide = Side.Left;
                     facing = Side.Left;
-
-                    // apply initial jump velocity
-                    rb.velocity = new Vector2(-1 * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
                 }
 
                 // left wall jump startup
@@ -163,9 +156,6 @@ public class PlayerController : MonoBehaviour
                     jumpTimer = 0;
                     jumpSide = Side.Right;
                     facing = Side.Right;
-
-                    // apply initial jump velocity
-                    rb.velocity = new Vector2(INIT_JUMP_SPEED, INIT_JUMP_SPEED);
                 }
             }
             else // controls to apply jumping force and continue jump
@@ -173,17 +163,17 @@ public class PlayerController : MonoBehaviour
                 // increment jump timer
                 jumpTimer += Time.deltaTime;
 
-                // apply jump force
+                // apply jump velocity
                 switch (jumpSide)
                 {
                     case Side.Left:
-                        forceSum += new Vector2(-1 * JUMP_FORCE, JUMP_FORCE);
+                        rb.velocity = new Vector2(-1 * Mathf.Sqrt(2) * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
                         break;
                     case Side.Right:
-                        forceSum += new Vector2(JUMP_FORCE, JUMP_FORCE);
+                        rb.velocity = new Vector2(Mathf.Sqrt(2) * INIT_JUMP_SPEED, INIT_JUMP_SPEED);
                         break;
                     case Side.None:
-                        forceSum += new Vector2(0, JUMP_FORCE);
+                        rb.velocity = new Vector2(rb.velocity.x, INIT_JUMP_SPEED);
                         break;
                 }
 
@@ -234,6 +224,8 @@ public class PlayerController : MonoBehaviour
         // dash startup
         if(InputHelper.GetShiftPress() && dashCooldownTimer <= 0)
         {
+            isJumping = false; // ensure jumping does not resume after dash
+
             isDashing = true;
             dashDirection = InputHelper.GetOctoDirectionHeld();
             dashTimer = 0;
