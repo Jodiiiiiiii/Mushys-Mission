@@ -54,6 +54,12 @@ TagManager:
   - name: Hazards
     uniqueID: 1980266841
     locked: 0
+  - name: OneWayPlatform
+    uniqueID: 3862471169
+    locked: 0
+  - name: Player
+    uniqueID: 4195536311
+    locked: 0
   - name: Platforms
     uniqueID: 1550697611
     locked: 0

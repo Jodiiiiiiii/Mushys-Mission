@@ -127,53 +127,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -105, y: 117.5}
+        - {x: -105, y: 68.5}
+        - {x: 113, y: 68.5}
+        - {x: 113, y: 117.5}
       tessellationDetail: 0
       bones: []
       spriteID: 25f300c52eec64842b5db259ec402546
       internalID: 1435196700
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloatingPlatformsTileset_2
-      rect:
-        serializedVersion: 2
-        x: 478
-        y: 1561
-        width: 1050
-        height: 452
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e6c743c977193eb4da09215b2a52fb8a
-      internalID: 190356450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloatingPlatformsTileset_3
-      rect:
-        serializedVersion: 2
-        x: 1594
-        y: 1062
-        width: 449
-        height: 942
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f86be7af4c181745b630ee23a882d1a
-      internalID: -1817912850
       vertices: []
       indices: 
       edges: []
@@ -190,32 +152,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -152.5, y: 158}
+        - {x: -152.5, y: 93}
+        - {x: 148.5, y: 93}
+        - {x: 148.5, y: 158}
       tessellationDetail: 0
       bones: []
       spriteID: 258ee078785f82d4d8bf21cf58c946cd
       internalID: -1210506127
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloatingPlatformsTileset_6
-      rect:
-        serializedVersion: 2
-        x: 497
-        y: 1059
-        width: 1050
-        height: 452
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2edc65704abab214c86b97daa22b13aa
-      internalID: -1039007384
       vertices: []
       indices: 
       edges: []
@@ -232,53 +177,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -115, y: 118}
+        - {x: -115, y: 77}
+        - {x: 103, y: 77}
+        - {x: 103, y: 118}
       tessellationDetail: 0
       bones: []
       spriteID: bf4771b87855f3248a89e920c908822f
       internalID: -2116128340
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloatingPlatformsTileset_8
-      rect:
-        serializedVersion: 2
-        x: 437
-        y: 502
-        width: 1562
-        height: 452
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6cd904a896751444b99dec5114c11ec6
-      internalID: -1694363423
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloatingPlatformsTileset_9
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 31
-        width: 2014
-        height: 452
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4f7602141a90d242afd49bc1b41532a
-      internalID: -1119952188
       vertices: []
       indices: 
       edges: []

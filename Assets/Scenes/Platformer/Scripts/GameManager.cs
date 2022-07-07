@@ -147,8 +147,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void InitializeDefaultSaveData()
     {
-        data.sceneName = "Scene0";
-        data.spawnPoint = new Vector2(-14, 4);
+        data.sceneName = "GrassyScene1";
+        data.spawnPoint = new Vector2(0, 0);
         data.health = 9;
     }
 
