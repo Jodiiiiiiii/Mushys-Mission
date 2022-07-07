@@ -27,8 +27,9 @@ public class PlayerController : MonoBehaviour
     private const float DASH_TIME = 0.2f;
     private const float DASH_COOLDOWN = 5.0f;
 
-    // Managers
+    // Unity variables
     private GameManager gameManager;
+    private CameraController camController;
 
     // components
     private Rigidbody2D rb;
@@ -59,8 +60,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // create managers
+        // Unity variables
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        camController = GameObject.Find("Cam Follow").GetComponent<CameraController>();
 
         // component
         rb = GetComponent<Rigidbody2D>();
@@ -230,6 +232,8 @@ public class PlayerController : MonoBehaviour
             dashDirection = InputHelper.GetOctoDirectionHeld();
             dashTimer = 0;
             dashCooldownTimer = DASH_COOLDOWN;
+
+            camController.PulseCamera(); // trigger shake animation
         }
 
         // continues dash until dash terminates

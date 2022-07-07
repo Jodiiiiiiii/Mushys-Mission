@@ -3,7 +3,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     // Unity variables
-    GameObject player;
+    private GameObject player;
+    [SerializeField] private Animator camAnimator;
 
     // canvas
     [SerializeField] private GameObject platformerCanvas;
@@ -21,7 +22,7 @@ public class CameraController : MonoBehaviour
         player = GameObject.Find("Player");
 
         // load UI elements
-        Instantiate(platformerCanvas, Camera.main.transform);
+        Instantiate(platformerCanvas, transform);
         // set position of canvas so that it is in front of the camera
         platformerCanvas.transform.localPosition = new Vector3(0, 0, 10);
     }
@@ -30,14 +31,14 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         // camera follows player
-        Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
 
         // ensure camera is within left and right bounds
         if (transform.position.x < leftBound)
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
-        else if (transform.position.x > rightBound)
+        else if (Camera.main.transform.position.x > rightBound)
         {
             transform.position = new Vector3(rightBound, transform.position.y, transform.position.z);
         }
@@ -52,5 +53,13 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, bottomBound, transform.position.z);
         }
 
+    }
+
+    /// <summary>
+    /// Activates camera shake animation
+    /// </summary>
+    public void PulseCamera()
+    {
+        camAnimator.SetTrigger("pulse");
     }
 }
