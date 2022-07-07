@@ -48,11 +48,17 @@ TagManager:
   - name: Background
     uniqueID: 2421396885
     locked: 0
+  - name: BackgroundDecor
+    uniqueID: 1802469983
+    locked: 0
   - name: Hazards
     uniqueID: 1980266841
     locked: 0
   - name: Platforms
     uniqueID: 1550697611
+    locked: 0
+  - name: ForegroundDecor
+    uniqueID: 4213243801
     locked: 0
   - name: Triggers
     uniqueID: 473302221
