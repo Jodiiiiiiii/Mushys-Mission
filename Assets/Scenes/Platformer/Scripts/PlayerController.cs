@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // right wall jump startup
-                if (IsTouchingRightWall() && InputHelper.GetSpacePress() && !IsGrounded())
+                else if (IsTouchingRightWall() && InputHelper.GetSpacePress())
                 {
                     // set initial jumping state
                     isJumping = true;
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // left wall jump startup
-                if (IsTouchingLeftWall() && InputHelper.GetSpacePress() && !IsGrounded())
+                else if (IsTouchingLeftWall() && InputHelper.GetSpacePress())
                 {
                     // set initial jumping state
                     isJumping = true;
