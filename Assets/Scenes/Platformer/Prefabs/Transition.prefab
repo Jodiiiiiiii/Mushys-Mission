@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4142414150688867585}
   - component: {fileID: 4142414150688867586}
   - component: {fileID: 4142414150688867587}
+  - component: {fileID: 6814581047493115291}
   m_Layer: 0
   m_Name: Transition
   m_TagString: Transition
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 473302221
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.022817612, g: 1, b: 0, a: 1}
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7b3d50140ceca4f9bed7bb6172d185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <sceneNum>k__BackingField: 0
+  <sceneName>k__BackingField: 
   <position>k__BackingField: {x: 0, y: 0}
 --- !u!61 &4142414150688867587
 BoxCollider2D:
@@ -126,3 +127,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6814581047493115291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4142414150688867589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05f7ec4ad6b935b40a3df842551af69d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
