@@ -208,7 +208,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -216,6 +216,51 @@ TextureImporter:
       bones: []
       spriteID: 538b92e44d5535f47ab62d8754d6bf0e
       internalID: 699368843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moving Structures_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 168
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 1}
+        - {x: -4, y: 1}
+        - {x: -4, y: 0}
+        - {x: -1, y: -3}
+        - {x: -1, y: -4}
+        - {x: 0, y: -4}
+        - {x: 3, y: -1}
+        - {x: 4, y: -1}
+        - {x: 4, y: 0}
+        - {x: 1, y: 3}
+        - {x: 1, y: 4}
+        - {x: 0, y: 4}
+      physicsShape:
+      - - {x: 0, y: 4}
+        - {x: -3, y: 1}
+        - {x: -4, y: 1}
+        - {x: -4, y: 0}
+        - {x: -1, y: -3}
+        - {x: -1, y: -4}
+        - {x: 0, y: -4}
+        - {x: 3, y: -1}
+        - {x: 4, y: -1}
+        - {x: 4, y: 0}
+        - {x: 1, y: 3}
+        - {x: 1, y: 4}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 230a8c8cb8bbb6f4aaf9447823ade047
+      internalID: 1185392201
       vertices: []
       indices: 
       edges: []
@@ -232,6 +277,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Moving Platforms_0: -1805614689
+      Moving Structures_0: -256053141
       Moving Platforms_2: -891440428
       Moving Platforms_1: 5731082
       Moving Platforms_4: 699368843
