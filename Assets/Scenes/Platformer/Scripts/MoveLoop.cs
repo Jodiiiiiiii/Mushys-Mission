@@ -42,7 +42,7 @@ public class MoveLoop : MonoBehaviour
                 }
                 else // move platform
                 {
-                    transform.position = new Vector3(startPos.x + xDiff * cycleTimer / cycleTime, startPos.y + yDiff * cycleTimer / cycleTime, 0);
+                    transform.position = Vector3.Lerp(startPos, endPos, cycleTimer / cycleTime);
                     cycleTimer += Time.deltaTime;
                 }
             }
@@ -57,7 +57,7 @@ public class MoveLoop : MonoBehaviour
                 }
                 else // move platform
                 {
-                    transform.position = new Vector3(endPos.x - xDiff * cycleTimer / cycleTime, endPos.y - yDiff * cycleTimer / cycleTime, 0);
+                    transform.position = Vector3.Lerp(endPos, startPos, cycleTimer / cycleTime);
                     cycleTimer += Time.deltaTime;
                 }
             }
