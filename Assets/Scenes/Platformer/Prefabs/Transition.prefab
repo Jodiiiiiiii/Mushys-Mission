@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4142414150688867585}
   - component: {fileID: 4142414150688867586}
   - component: {fileID: 4142414150688867587}
-  - component: {fileID: 6814581047493115291}
   m_Layer: 0
   m_Name: Transition
   m_TagString: Transition
@@ -127,15 +126,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6814581047493115291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4142414150688867589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f7ec4ad6b935b40a3df842551af69d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

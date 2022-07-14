@@ -8,6 +8,7 @@ TagManager:
   - SpawnPoint
   - Transition
   - Restoration
+  - Collectible
   layers:
   - Default
   - TransparentFX

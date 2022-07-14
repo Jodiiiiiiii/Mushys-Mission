@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     // constants
     private const float GRAVITY_FORCE = 19.62f;
+    private const int COLLECTIBLE_COUNT = 2;
 
     // instance
     public static GameManager instance;
@@ -20,8 +22,12 @@ public class GameManager : MonoBehaviour
         public string sceneName;
         public Vector2 spawnPoint;
         public int health;
+        public bool[] collectibles;
     }
     private SaveData data;
+
+    // events
+    public UnityEvent transitionEvent { get; private set; }
 
     // UNITY METHODS ----------------------------------------------------------------------------
 
@@ -46,6 +52,9 @@ public class GameManager : MonoBehaviour
             {
                 InitializeDefaultSaveData();
             }
+
+            // initialize events
+            transitionEvent = new UnityEvent();
         }
         else
         {
@@ -93,12 +102,37 @@ public class GameManager : MonoBehaviour
         return data.health;
     }
 
+    public bool GetCollectibleState(int index)
+    {
+        if (index < data.collectibles.Length)
+        {
+            return data.collectibles[index];
+        }
+        else
+        {
+            throw new System.Exception("Collectible index out of bounds: try updating COLLECTIBLE_COUNT constant in game manager");
+        }
+    }
+
     // SETTERS ----------------------------------------------------------------------------------
 
     public void SetSpawnPoint(Vector3 newSpawnPoint)
     {
         data.spawnPoint.x = newSpawnPoint.x;
         data.spawnPoint.y = newSpawnPoint.y;
+    }
+
+
+    public void SetCollectibleState(int index, bool state)
+    {
+        if (index < data.collectibles.Length)
+        {
+            data.collectibles[index] = state;
+        }
+        else
+        {
+            throw new System.Exception("Collectible index out of bounds: try updating COLLECTIBLE_COUNT constant in game manager");
+        }
     }
 
     // MODIFIERS ----------------------------------------------------------------------------------
@@ -127,6 +161,8 @@ public class GameManager : MonoBehaviour
     /// <param name="transitionData"></param>
     public void TransitionScene(TransitionData transitionData)
     {
+        // invoke transition event (used for properly loading pending collectibles)
+        transitionEvent.Invoke();
         // set new scene and spawnPoint in saveManager
         data.sceneName = transitionData.sceneName;
         data.spawnPoint = transitionData.position;
@@ -150,6 +186,11 @@ public class GameManager : MonoBehaviour
         data.sceneName = "NewScene1";
         data.spawnPoint = new Vector2(0, 0);
         data.health = 9;
+        data.collectibles = new bool[COLLECTIBLE_COUNT];
+        for(int i = 0; i < data.collectibles.Length; i++)
+        {
+            data.collectibles[i] = false;
+        }
     }
 
 }

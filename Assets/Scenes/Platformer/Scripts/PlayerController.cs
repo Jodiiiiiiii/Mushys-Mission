@@ -336,6 +336,20 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.RestoreHealth();
         }
+
+        // collect collectible
+        if(collision.CompareTag("Collectible"))
+        {
+            if (collision.TryGetComponent(out Collectible collectibleScript))
+            {
+                collectibleScript.PlayerCollect();
+            }
+            else
+            {
+                // ensures proper use of transition tag
+                throw new System.Exception("Invalid use of 'Collectible' tag");
+            }
+        }
     }
 
     /// <summary>
