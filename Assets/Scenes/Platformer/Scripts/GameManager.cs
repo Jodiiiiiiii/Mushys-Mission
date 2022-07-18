@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         public Vector2 spawnPoint;
         public int health;
         public bool[] collectibles;
+        public int highScore;
     }
     private SaveData data;
 
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
             }
             else // default save file configuration
             {
+                data.highScore = 0; // only reset high score to zero if no file exists
                 InitializeDefaultSaveData();
             }
 
@@ -148,7 +150,13 @@ public class GameManager : MonoBehaviour
         // game over state
         if (data.health <= 0)
         {
-            InitializeDefaultSaveData(); // resets to initial save data default (until more involved save system is established)
+            // update high score if necessary
+            if(GetCurrentScore() > data.highScore)
+            {
+                data.highScore = GetCurrentScore();
+            }
+            // resets to initial save data default (until more involved save system is established)
+            InitializeDefaultSaveData(); 
         }
 
         // reload scene
@@ -191,6 +199,20 @@ public class GameManager : MonoBehaviour
         {
             data.collectibles[i] = false;
         }
+    }
+
+    /// <summary>
+    /// returns number of collected collectibles
+    /// </summary>
+    /// <returns></returns>
+    private int GetCurrentScore()
+    {
+        int score = 0;
+        foreach(bool collected in data.collectibles)
+        {
+            if (collected) score++;
+        }
+        return score;
     }
 
 }
