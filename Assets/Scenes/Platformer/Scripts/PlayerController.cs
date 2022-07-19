@@ -26,10 +26,13 @@ public class PlayerController : MonoBehaviour
     private const float DASH_SPEED = 12f;
     private const float DASH_TIME = 0.2f;
     private const float DASH_COOLDOWN = 5.0f;
+    // dirt particles
+    private const float PARTICLE_TRAIL_DELAY = 0.2f;
 
     // Unity variables
     private GameManager gameManager;
     private CameraController camController;
+    [SerializeField] ParticleSystem dirtEffect;
 
     // components
     private Rigidbody2D rb;
@@ -57,6 +60,12 @@ public class PlayerController : MonoBehaviour
     // physics variables
     private Vector2 forceSum;
 
+    // particles
+    private bool spawnDirtBottom;
+    private bool spawnDirtLeft;
+    private bool spawnDirtRight;
+    private float trailDelayTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +79,12 @@ public class PlayerController : MonoBehaviour
 
         // assign player position to appropriate spawn point
         transform.position = gameManager.GetSpawnPoint();
+
+        // variables
+        spawnDirtBottom = true;
+        spawnDirtLeft = true;
+        spawnDirtRight = true;
+        trailDelayTimer = PARTICLE_TRAIL_DELAY;
     }
 
     // Update is called once per frame
@@ -291,6 +306,65 @@ public class PlayerController : MonoBehaviour
         if (facing != prevFacing)
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         prevFacing = facing;
+
+        // DIRT PARTICLE EFFECTS
+
+        // grounded effects
+        if(IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001)
+        {
+            // grounded impact
+            if(spawnDirtBottom)
+            {
+                Instantiate(dirtEffect, new Vector3(transform.position.x ,transform.position.y - box.bounds.extents.y), transform.rotation);
+                spawnDirtBottom = false;
+            }
+
+            // moving trail
+            if(InputHelper.GetRightOnly() || InputHelper.GetLeftOnly())
+            {
+                if (trailDelayTimer < 0)
+                {
+                    Instantiate(dirtEffect, new Vector3(transform.position.x, transform.position.y - box.bounds.extents.y), transform.rotation);
+                    trailDelayTimer = PARTICLE_TRAIL_DELAY;
+                }
+                else
+                {
+                    trailDelayTimer -= Time.deltaTime;
+                }
+            }
+        }
+        else
+        {
+            spawnDirtBottom = true;
+        }
+
+        // left wall impact
+        if(IsTouchingLeftWall())
+        {
+            if (spawnDirtLeft)
+            {
+                Instantiate(dirtEffect, new Vector3(transform.position.x - box.bounds.extents.x, transform.position.y), transform.rotation);
+                spawnDirtLeft = false;
+            }
+        }
+        else
+        {
+            spawnDirtLeft = true;
+        }
+
+        // right wall impact
+        if (IsTouchingRightWall())
+        {
+            if (spawnDirtRight)
+            {
+                Instantiate(dirtEffect, new Vector3(transform.position.x + box.bounds.extents.x, transform.position.y), transform.rotation);
+                spawnDirtRight = false;
+            }
+        }
+        else
+        {
+            spawnDirtRight = true;
+        }
     }
 
     private void FixedUpdate()
