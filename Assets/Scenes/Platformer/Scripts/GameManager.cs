@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     // audio
     [SerializeField] private AudioClip secureCollectibleAudio;
+    [SerializeField] private AudioClip deathAudio;
+    [SerializeField] private AudioClip gameOverAudio;
 
     // save data
     [System.Serializable]
@@ -169,7 +171,15 @@ public class GameManager : MonoBehaviour
                 data.highScore = GetCurrentScore();
             }
             // resets to initial save data default (until more involved save system is established)
-            InitializeDefaultSaveData(); 
+            InitializeDefaultSaveData();
+
+            // game over audio
+            audioSource.PlayOneShot(gameOverAudio);
+        }
+        else
+        {
+            // only play death audio if it is not a game over
+            audioSource.PlayOneShot(deathAudio, 0.4f);
         }
 
         // reload scene

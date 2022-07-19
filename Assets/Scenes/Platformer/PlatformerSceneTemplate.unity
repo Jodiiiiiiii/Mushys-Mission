@@ -1538,6 +1538,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secureCollectibleAudio: {fileID: 8300000, guid: 4509a6078ed9c4923a49b486ecfbdbf7, type: 3}
+  deathAudio: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  gameOverAudio: {fileID: 8300000, guid: 4668d9fcf8d264f3693f23878a14042b, type: 3}
 --- !u!82 &975344894
 AudioSource:
   m_ObjectHideFlags: 0
