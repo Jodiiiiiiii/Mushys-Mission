@@ -187,6 +187,7 @@ public class GameManager : MonoBehaviour
             InitializeDefaultSaveData();
 
             // game over audio
+            audioSource.Stop(); // ends music (so that it restarts)
             audioSource.PlayOneShot(gameOverAudio);
         }
         else
