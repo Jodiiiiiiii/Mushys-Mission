@@ -1538,6 +1538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secureCollectibleAudio: {fileID: 8300000, guid: 4509a6078ed9c4923a49b486ecfbdbf7, type: 3}
+  healAudio: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
   deathAudio: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
   gameOverAudio: {fileID: 8300000, guid: 4668d9fcf8d264f3693f23878a14042b, type: 3}
 --- !u!82 &975344894
@@ -2151,7 +2152,6 @@ MonoBehaviour:
   collisionAudio2: {fileID: 8300000, guid: a967f92e38352bb4291945423de63499, type: 3}
   collisionAudio3: {fileID: 8300000, guid: 856b6d74addb9ad4ab2b7b47bae3e839, type: 3}
   collisionAudio4: {fileID: 8300000, guid: f2bc9c36f73ea50419060ec6eb40c246, type: 3}
-  healAudio: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
   collectibleAudio: {fileID: 8300000, guid: f32c95c96d480422ebf7072d3b788cff, type: 3}
 --- !u!1 &1991545878
 GameObject:

@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip collisionAudio2;
     [SerializeField] private AudioClip collisionAudio3;
     [SerializeField] private AudioClip collisionAudio4;
-    [SerializeField] private AudioClip healAudio;
     [SerializeField] private AudioClip collectibleAudio;
 
     // Start is called before the first frame update
@@ -438,7 +437,6 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Restoration"))
         {
             gameManager.RestoreHealth();
-            PlayHealSound();
         }
 
         // collect collectible
@@ -600,11 +598,6 @@ public class PlayerController : MonoBehaviour
                 audioSource.PlayOneShot(collisionAudio4);
                 break;
         }
-    }
-
-    private void PlayHealSound()
-    {
-        audioSource.PlayOneShot(healAudio, 0.5f);
     }
 
     private void PlayCollectibleSound()

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     // audio
     [SerializeField] private AudioClip secureCollectibleAudio;
+    [SerializeField] private AudioClip healAudio;
     [SerializeField] private AudioClip deathAudio;
     [SerializeField] private AudioClip gameOverAudio;
 
@@ -206,6 +207,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestoreHealth()
     {
+        // play audio only if health was actually recovered
+        if(data.health != 9)
+        {
+            audioSource.PlayOneShot(healAudio, 0.5f);
+        }
         data.health = 9;
     }
 
