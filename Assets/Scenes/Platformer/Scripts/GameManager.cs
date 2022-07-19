@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip healAudio;
     [SerializeField] private AudioClip deathAudio;
     [SerializeField] private AudioClip gameOverAudio;
+    [SerializeField] private AudioClip[] music;
 
     // save data
     [System.Serializable]
@@ -69,6 +70,9 @@ public class GameManager : MonoBehaviour
 
             // components
             audioSource = GetComponent<AudioSource>();
+
+            // start random music track
+            PlayRandomMusic();
         }
         else
         {
@@ -86,6 +90,14 @@ public class GameManager : MonoBehaviour
 
         // physics instantiation
         Physics2D.gravity = new Vector2(0, -1 * GRAVITY_FORCE);
+    }
+
+    private void Update()
+    {
+        if(!audioSource.isPlaying)
+        {
+            PlayRandomMusic();
+        }
     }
 
     private void OnApplicationQuit()
@@ -242,6 +254,11 @@ public class GameManager : MonoBehaviour
             if (collected) score++;
         }
         return score;
+    }
+
+    private void PlayRandomMusic()
+    {
+        audioSource.PlayOneShot(music[Random.Range(0, 10)], 0.25f);
     }
 
 }
