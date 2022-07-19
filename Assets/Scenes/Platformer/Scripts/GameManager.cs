@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
             data.collectibles[index] = state;
             if(state)
             {
-                audioSource.PlayOneShot(secureCollectibleAudio);
+                audioSource.PlayOneShot(secureCollectibleAudio, 0.5f);
             }
         }
         else

@@ -575,10 +575,10 @@ public class PlayerController : MonoBehaviour
         switch (Random.Range(1, 3)) // random int, either 1 or 2
         {
             case 1:
-                audioSource.PlayOneShot(dashAudio1);
+                audioSource.PlayOneShot(dashAudio1, 0.5f);
                 break;
             case 2:
-                audioSource.PlayOneShot(dashAudio2);
+                audioSource.PlayOneShot(dashAudio2, 0.5f);
                 break;
         }
     }
@@ -604,11 +604,11 @@ public class PlayerController : MonoBehaviour
 
     private void PlayHealSound()
     {
-        audioSource.PlayOneShot(healAudio);
+        audioSource.PlayOneShot(healAudio, 0.5f);
     }
 
     private void PlayCollectibleSound()
     {
-        audioSource.PlayOneShot(collectibleAudio);
+        audioSource.PlayOneShot(collectibleAudio, 0.5f);
     }
 }

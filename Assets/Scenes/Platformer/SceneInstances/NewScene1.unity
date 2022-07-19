@@ -6838,13 +6838,13 @@ MonoBehaviour:
   jumpAudio2: {fileID: 8300000, guid: efa8d9408cf5dd1469f24a64eabb7b0d, type: 3}
   jumpAudio3: {fileID: 8300000, guid: 09285afe64b606044b4bba58b6cced49, type: 3}
   jumpAudio4: {fileID: 8300000, guid: 26ba84cde900f02408eaef46d1af7811, type: 3}
-  dashAudio1: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
-  dashAudio2: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  dashAudio1: {fileID: 8300000, guid: be2522789ff384a4996b649774bedeb6, type: 3}
+  dashAudio2: {fileID: 8300000, guid: 016b700bcb3554b1999c391b9661d285, type: 3}
   collisionAudio1: {fileID: 8300000, guid: 6aeefb601c305f64487cebdfacae5b6c, type: 3}
   collisionAudio2: {fileID: 8300000, guid: a967f92e38352bb4291945423de63499, type: 3}
   collisionAudio3: {fileID: 8300000, guid: 856b6d74addb9ad4ab2b7b47bae3e839, type: 3}
   collisionAudio4: {fileID: 8300000, guid: f2bc9c36f73ea50419060ec6eb40c246, type: 3}
-  healAudio: {fileID: 8300000, guid: 9fe330231cc2d4a01aa086aba00b09fd, type: 3}
+  healAudio: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
   collectibleAudio: {fileID: 8300000, guid: f32c95c96d480422ebf7072d3b788cff, type: 3}
 --- !u!82 &1932135990
 AudioSource:
