@@ -15,6 +15,12 @@ public class GameManager : MonoBehaviour
     // instance
     public static GameManager instance;
 
+    // components
+    private AudioSource audioSource;
+
+    // audio
+    [SerializeField] private AudioClip secureCollectibleAudio;
+
     // save data
     [System.Serializable]
     private class SaveData
@@ -57,6 +63,9 @@ public class GameManager : MonoBehaviour
 
             // initialize events
             transitionEvent = new UnityEvent();
+
+            // components
+            audioSource = GetComponent<AudioSource>();
         }
         else
         {
@@ -130,6 +139,10 @@ public class GameManager : MonoBehaviour
         if (index < data.collectibles.Length)
         {
             data.collectibles[index] = state;
+            if(state)
+            {
+                audioSource.PlayOneShot(secureCollectibleAudio);
+            }
         }
         else
         {

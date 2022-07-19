@@ -78,6 +78,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip collisionAudio2;
     [SerializeField] private AudioClip collisionAudio3;
     [SerializeField] private AudioClip collisionAudio4;
+    [SerializeField] private AudioClip healAudio;
+    [SerializeField] private AudioClip collectibleAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -436,6 +438,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Restoration"))
         {
             gameManager.RestoreHealth();
+            PlayHealSound();
         }
 
         // collect collectible
@@ -444,6 +447,7 @@ public class PlayerController : MonoBehaviour
             if (collision.TryGetComponent(out Collectible collectibleScript))
             {
                 collectibleScript.PlayerCollect();
+                PlayCollectibleSound();
             }
             else
             {
@@ -596,5 +600,15 @@ public class PlayerController : MonoBehaviour
                 audioSource.PlayOneShot(collisionAudio4);
                 break;
         }
+    }
+
+    private void PlayHealSound()
+    {
+        audioSource.PlayOneShot(healAudio);
+    }
+
+    private void PlayCollectibleSound()
+    {
+        audioSource.PlayOneShot(collectibleAudio);
     }
 }
