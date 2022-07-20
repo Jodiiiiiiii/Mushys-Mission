@@ -9,7 +9,6 @@ public class MoveLoop : MonoBehaviour
     [SerializeField] private float pauseTime;
     private float cycleTimer;
     private float pauseTimer;
-    private float xDiff, yDiff;
     private bool forward;
 
     // Start is called before the first frame update
@@ -22,8 +21,6 @@ public class MoveLoop : MonoBehaviour
         forward = true;
         cycleTimer = 0;
         pauseTimer = 0;
-        xDiff = endPos.x - startPos.x;
-        yDiff = endPos.y - startPos.y;
     }
 
     // Update is called once per frame

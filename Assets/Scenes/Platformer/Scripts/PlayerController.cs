@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D box;
     private AudioSource audioSource;
+    private Animator animator;
 
     // layer masks
     [SerializeField] private LayerMask standardPlatformMask; // does not include one-way platforms
@@ -91,6 +92,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
 
         // assign player position to appropriate spawn point
         transform.position = gameManager.GetSpawnPoint();
@@ -393,6 +395,28 @@ public class PlayerController : MonoBehaviour
         {
             spawnDirtRight = true;
         }
+
+        // ANIMATIONS
+
+        // sliding
+        if(((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0)
+        {
+            SetSlideAnim(true);
+        }
+        else
+        {
+            SetSlideAnim(false);
+        }
+
+        // running
+        if(rb.velocity.y != 0 || rb.velocity.x != 0)
+        {
+            SetRunAnim(true);
+        }
+        else
+        {
+            SetRunAnim(false);
+        }
     }
 
     private void FixedUpdate()
@@ -411,6 +435,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Hazard"))
         {
             gameManager.HazardCollision();
+            DeathAnim();
         }
 
         // update save point and scene in save manager 
@@ -603,5 +628,20 @@ public class PlayerController : MonoBehaviour
     private void PlayCollectibleSound()
     {
         audioSource.PlayOneShot(collectibleAudio, 0.5f);
+    }
+
+    private void SetRunAnim(bool state)
+    {
+        animator.SetBool("walking", state);
+    }
+
+    private void SetSlideAnim(bool state)
+    {
+        animator.SetBool("sliding", state);
+    }
+
+    private void DeathAnim()
+    {
+        animator.SetTrigger("death");
     }
 }
