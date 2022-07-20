@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private const float DASH_COOLDOWN = 5.0f;
     // dirt particles
     private const float PARTICLE_TRAIL_DELAY = 0.2f;
+    // animation
+    private const float SQUASH_DELAY = 0.2f;
 
     // Unity variables
     private GameManager gameManager;
@@ -82,6 +84,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip collisionAudio4;
     [SerializeField] private AudioClip collectibleAudio;
 
+    // animation
+    private float squashDelayTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -103,6 +108,7 @@ public class PlayerController : MonoBehaviour
         spawnDirtLeft = true;
         spawnDirtRight = true;
         trailDelayTimer = PARTICLE_TRAIL_DELAY;
+        squashDelayTimer = 0;
     }
 
     // Update is called once per frame
@@ -400,7 +406,7 @@ public class PlayerController : MonoBehaviour
         // ANIMATIONS
 
         // sliding
-        if(((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0)
+        if(((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0 && !IsGrounded())
         {
             SetSlideAnim(true);
         }
@@ -410,14 +416,18 @@ public class PlayerController : MonoBehaviour
         }
 
         // running
-        if(rb.velocity.y != 0 || rb.velocity.x != 0)
+        if(!IsGrounded() || InputHelper.GetLeftOnly() || InputHelper.GetRightOnly())
         {
             SetRunAnim(true);
+            squashDelayTimer = 0;
         }
         else
         {
-            SetRunAnim(false);
+            squashDelayTimer += Time.deltaTime;
+            if(squashDelayTimer >= SQUASH_DELAY)
+                SetRunAnim(false);
         }
+
     }
 
     private void FixedUpdate()
