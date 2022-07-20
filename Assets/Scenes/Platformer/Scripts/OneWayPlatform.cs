@@ -3,7 +3,7 @@ using UnityEngine;
 public class OneWayPlatform : MonoBehaviour
 {
     // components
-    private CompositeCollider2D collider;
+    private CompositeCollider2D compositeCollider;
 
     // variables
     private InputHelper.OctoDirection direction;
@@ -13,7 +13,7 @@ public class OneWayPlatform : MonoBehaviour
     void Start()
     {
         // components
-        collider = GetComponent<CompositeCollider2D>();
+        compositeCollider = GetComponent<CompositeCollider2D>();
 
         // variables
         isOverlappingPlayer = false;
@@ -28,13 +28,13 @@ public class OneWayPlatform : MonoBehaviour
         // disable one way collisions if holding down
         if(direction == InputHelper.OctoDirection.Down || direction == InputHelper.OctoDirection.DownLeft || direction == InputHelper.OctoDirection.DownRight)
         {
-            if (!collider.isTrigger) // only disable if not already disabled
-                collider.isTrigger = true; ; // set collider as a trigger
+            if (!compositeCollider.isTrigger) // only disable if not already disabled
+                compositeCollider.isTrigger = true; ; // set collider as a trigger
         }
         else
         {
-            if(collider.isTrigger && !isOverlappingPlayer) // only enable if not already enabled and if not overlapping the player (prevents resnapping player to platform)
-                collider.isTrigger = false; // reset collider as NOT a trigger
+            if(compositeCollider.isTrigger && !isOverlappingPlayer) // only enable if not already enabled and if not overlapping the player (prevents resnapping player to platform)
+                compositeCollider.isTrigger = false; // reset collider as NOT a trigger
         }
     }
 

@@ -403,7 +403,7 @@ public class PlayerController : MonoBehaviour
             spawnDirtRight = true;
         }
 
-        // ANIMATIONS
+        // ANIMATIONS ------------------------------------------------------------------------------
 
         // sliding
         if(((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0 && !IsGrounded())
@@ -416,18 +416,17 @@ public class PlayerController : MonoBehaviour
         }
 
         // running
-        if(!IsGrounded() || InputHelper.GetLeftOnly() || InputHelper.GetRightOnly())
+        if(IsGrounded() && !InputHelper.GetLeftOnly() && !InputHelper.GetRightOnly() && Mathf.Abs(rb.velocity.y) <= 0.001 && Mathf.Abs(rb.velocity.x) <= 0.001)
+        {
+            squashDelayTimer += Time.deltaTime;
+            if (squashDelayTimer >= SQUASH_DELAY)
+                SetRunAnim(false);
+        }
+        else
         {
             SetRunAnim(true);
             squashDelayTimer = 0;
         }
-        else
-        {
-            squashDelayTimer += Time.deltaTime;
-            if(squashDelayTimer >= SQUASH_DELAY)
-                SetRunAnim(false);
-        }
-
     }
 
     private void FixedUpdate()
