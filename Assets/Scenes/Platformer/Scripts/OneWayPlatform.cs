@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class OneWayPlatform : MonoBehaviour
 {
-    // constants
-    private const float ENABLED_SURFACE_ARC = 178;
-
     // components
-    private PlatformEffector2D effector;
+    private CompositeCollider2D collider;
 
     // variables
     private InputHelper.OctoDirection direction;
@@ -16,13 +13,10 @@ public class OneWayPlatform : MonoBehaviour
     void Start()
     {
         // components
-        effector = GetComponent<PlatformEffector2D>();
+        collider = GetComponent<CompositeCollider2D>();
 
         // variables
         isOverlappingPlayer = false;
-
-        // starting configuration
-        effector.surfaceArc = ENABLED_SURFACE_ARC;
     }
 
     // Update is called once per frame
@@ -34,17 +28,25 @@ public class OneWayPlatform : MonoBehaviour
         // disable one way collisions if holding down
         if(direction == InputHelper.OctoDirection.Down || direction == InputHelper.OctoDirection.DownLeft || direction == InputHelper.OctoDirection.DownRight)
         {
-            if(effector.surfaceArc == ENABLED_SURFACE_ARC) // only disable if not already disabled
-                effector.surfaceArc = 0; // removes collision arc
+            if (!collider.isTrigger) // only disable if not already disabled
+                collider.isTrigger = true; ; // set collider as a trigger
         }
         else
         {
-            if(effector.surfaceArc == 0 && !isOverlappingPlayer) // only enable if not already enabled and if not overlapping the player (prevents resnapping player to platform)
-                effector.surfaceArc = ENABLED_SURFACE_ARC; // reapplies collision arc
+            if(collider.isTrigger && !isOverlappingPlayer) // only enable if not already enabled and if not overlapping the player (prevents resnapping player to platform)
+                collider.isTrigger = false; // reset collider as NOT a trigger
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isOverlappingPlayer = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
@@ -52,7 +54,7 @@ public class OneWayPlatform : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
