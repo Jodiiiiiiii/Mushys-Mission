@@ -114,6 +114,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region MOTION
+
         // reset force sum for each loop
         forceSum = new Vector2(0, 0);
 
@@ -340,10 +342,13 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         prevFacing = facing;
 
+        #endregion
+
+        #region PARTICLES
         // DIRT PARTICLE EFFECTS
 
         // grounded effects
-        if(IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001)
+        if (IsGrounded() && Mathf.Abs(rb.velocity.y) <= 0.001)
         {
             // grounded impact
             if(spawnDirtBottom)
@@ -403,10 +408,12 @@ public class PlayerController : MonoBehaviour
             spawnDirtRight = true;
         }
 
-        // ANIMATIONS ------------------------------------------------------------------------------
+        #endregion
+
+        #region ANIMATION
 
         // sliding
-        if(((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0 && !IsGrounded())
+        if (((IsTouchingLeftWall() && InputHelper.GetLeftOnly()) || (IsTouchingRightWall() && InputHelper.GetRightOnly())) && rb.velocity.y < 0 && !IsGrounded())
         {
             SetSlideAnim(true);
         }
@@ -427,6 +434,8 @@ public class PlayerController : MonoBehaviour
             SetRunAnim(true);
             squashDelayTimer = 0;
         }
+
+        #endregion
     }
 
     private void FixedUpdate()
