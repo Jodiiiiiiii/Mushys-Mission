@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // moving trail
-            if(InputHelper.GetRightOnly() || InputHelper.GetLeftOnly())
+            if((InputHelper.GetRightOnly() || InputHelper.GetLeftOnly()) && !IsTouchingLeftWall() && !IsTouchingRightWall())
             {
                 if (trailDelayTimer < 0)
                 {
