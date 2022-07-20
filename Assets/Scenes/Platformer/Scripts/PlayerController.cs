@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using static InputHelper;
 
@@ -434,8 +435,8 @@ public class PlayerController : MonoBehaviour
         // reload scene when contacting a hazard
         if (collision.CompareTag("Hazard"))
         {
-            gameManager.HazardCollision();
             DeathAnim();
+            gameManager.HazardCollision();
         }
 
         // update save point and scene in save manager 

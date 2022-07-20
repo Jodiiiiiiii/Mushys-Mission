@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     // constants
     private const float GRAVITY_FORCE = 19.62f;
     private const int COLLECTIBLE_COUNT = 2;
+    private const float RELOAD_DELAY = 0.5f;
 
     // instance
     public static GameManager instance;
@@ -196,8 +198,8 @@ public class GameManager : MonoBehaviour
             audioSource.PlayOneShot(deathAudio, 0.4f);
         }
 
-        // reload scene
-        SceneManager.LoadScene(data.sceneName, LoadSceneMode.Single);
+        // reload scene after delay for death animation
+        StartCoroutine(ReloadAfterDelay(RELOAD_DELAY));
     }
 
     /// <summary>
@@ -262,4 +264,22 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(music[Random.Range(0, 10)], 0.25f);
     }
 
+    private IEnumerator ReloadAfterDelay(float delay)
+    {
+        // freeze scene
+        Time.timeScale = 0f;
+
+        // delay
+        float pauseEndTime = Time.realtimeSinceStartup + delay;
+        while (Time.realtimeSinceStartup < pauseEndTime)
+        {
+            yield return 0;
+        }
+
+        // unfreeze scene
+        Time.timeScale = 1;
+
+        // reload scene
+        SceneManager.LoadScene(data.sceneName, LoadSceneMode.Single);
+    }
 }
