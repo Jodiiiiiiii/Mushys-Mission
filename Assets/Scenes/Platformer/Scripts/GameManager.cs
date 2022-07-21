@@ -145,7 +145,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // returns time of current game session
+    public int GetHighScore()
+    {
+        return data.highScore;
+    }
+
+    /// <summary>
+    /// returns time of current game session
+    /// </summary>
     public float GetTime()
     {
         return data.time;
