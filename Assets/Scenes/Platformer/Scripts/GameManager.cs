@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         public int health;
         public bool[] collectibles;
         public int highScore;
+        public float time;
     }
     private SaveData data;
 
@@ -100,6 +101,8 @@ public class GameManager : MonoBehaviour
         {
             PlayRandomMusic();
         }
+
+        data.time += Time.deltaTime;
     }
 
     private void OnApplicationQuit()
@@ -140,6 +143,12 @@ public class GameManager : MonoBehaviour
         {
             throw new System.Exception("Collectible index out of bounds: try updating COLLECTIBLE_COUNT constant in game manager");
         }
+    }
+
+    // returns time of current game session
+    public float GetTime()
+    {
+        return data.time;
     }
 
     // SETTERS ----------------------------------------------------------------------------------
@@ -243,6 +252,7 @@ public class GameManager : MonoBehaviour
         {
             data.collectibles[i] = false;
         }
+        data.time = 0;
     }
 
     /// <summary>
