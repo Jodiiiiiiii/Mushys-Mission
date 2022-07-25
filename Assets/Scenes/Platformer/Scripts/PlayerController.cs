@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     // dashing
     private const float DASH_SPEED = 12f;
     private const float DASH_TIME = 0.2f;
-    private const float DASH_COOLDOWN = 3.5f;
+    private const float DASH_COOLDOWN = 2f;
     // dirt particles
     private const float PARTICLE_TRAIL_DELAY = 0.2f;
     // animation
