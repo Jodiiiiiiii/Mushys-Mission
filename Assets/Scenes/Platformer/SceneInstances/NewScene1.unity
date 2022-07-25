@@ -4341,7 +4341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camAnimator: {fileID: 2136235001}
-  platformerCanvas: {fileID: 6179190579657682609, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
+  platformerCanvas: {fileID: 4977614038264473718, guid: 032cb68abb93ffd4a81c849f02585930, type: 3}
   leftBound: -1.86
   rightBound: 3.8
   topBound: -1.47

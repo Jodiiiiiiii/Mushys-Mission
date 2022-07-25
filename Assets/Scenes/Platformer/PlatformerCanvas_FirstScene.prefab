@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6179190579657682611, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
       propertyPath: m_PresetInfoIsWorld
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6179190579657682613, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
       propertyPath: m_Pivot.x

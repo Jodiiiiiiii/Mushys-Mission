@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     // constants
     private const float GRAVITY_FORCE = 19.62f;
-    private const int COLLECTIBLE_COUNT = 2;
+    private const int COLLECTIBLE_COUNT = 100;
     private const float RELOAD_DELAY = 0.5f;
 
     // instance
@@ -251,8 +251,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void InitializeDefaultSaveData()
     {
-        data.sceneName = "NewScene1";
-        data.spawnPoint = new Vector2(0, 0);
+        data.sceneName = "1.0";
+        data.spawnPoint = new Vector2(-9, 25);
         data.health = 9;
         data.collectibles = new bool[COLLECTIBLE_COUNT];
         for(int i = 0; i < data.collectibles.Length; i++)
