@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Platformer/SceneInstances/2.1.unity
     guid: 44ff9fd26f6d74149b547fda62c97a27
+  - enabled: 1
+    path: Assets/Scenes/Platformer/SceneInstances/2.2.unity
+    guid: 1403301fd6c1662478641a142f14f912
   m_configObjects: {}

@@ -8338,7 +8338,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: 4}
+        - {x: -4, y: 0}
+        - {x: 4, y: 0}
+        - {x: 4, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: e079dfa13b189d942b54a1efffb53fdf
@@ -12320,8 +12324,8 @@ TextureImporter:
       TileSet2_226: 673759927
       TileSet2_207: -1735390528
       TileSet2_233: 1306732101
+      TileSet2_452: 1528653308
       TileSet2_288: -2140190397
-      TileSet2_15: -826923521
       TileSet2_563: -1308724233
       TileSet2_112: -204636227
       TileSet2_6: -608490464
@@ -12377,9 +12381,9 @@ TextureImporter:
       TileSet2_529: 1009971323
       TileSet2_350: 941093199
       TileSet2_552: 2139128621
-      TileSet2_127: -248803573
       TileSet2_52: 1805582273
       TileSet2_384: -81872478
+      TileSet2_127: -248803573
       TileSet2_111: 1027711976
       TileSet2_286: -2069974482
       TileSet2_457: -1405295392
@@ -12449,14 +12453,14 @@ TextureImporter:
       TileSet2_551: 1812137278
       TileSet2_13: 1560011390
       TileSet2_3: -2130700861
-      TileSet2_490: 1577335946
       TileSet2_437: -558513780
       TileSet2_462: -2022258252
+      TileSet2_490: 1577335946
       TileSet2_44: -1724122930
-      TileSet2_351: -409543558
       TileSet2_59: -849418672
-      TileSet2_369: -1739873237
       TileSet2_477: 1269567127
+      TileSet2_351: -409543558
+      TileSet2_369: -1739873237
       TileSet2_285: -386610596
       TileSet2_287: -1132903308
       TileSet2_265: 191558523
@@ -12871,15 +12875,15 @@ TextureImporter:
       TileSet2_517: 1900107148
       TileSet2_202: 1692771896
       TileSet2_16: -41937846
-      TileSet2_212: 755288864
-      TileSet2_349: 901325210
-      TileSet2_128: -1507146192
-      TileSet2_452: 1528653308
-      TileSet2_302: -295466979
-      TileSet2_512: 413023344
       TileSet2_35: 1439875805
-      TileSet2_531: -1654119476
+      TileSet2_349: 901325210
       TileSet2_4: -967459661
+      TileSet2_15: -826923521
+      TileSet2_212: 755288864
+      TileSet2_512: 413023344
+      TileSet2_128: -1507146192
+      TileSet2_531: -1654119476
+      TileSet2_302: -295466979
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
