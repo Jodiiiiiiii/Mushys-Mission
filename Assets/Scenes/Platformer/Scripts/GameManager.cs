@@ -25,6 +25,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip healAudio;
     [SerializeField] private AudioClip deathAudio;
     [SerializeField] private AudioClip gameOverAudio;
+    [SerializeField] private AudioClip jumpAudio1;
+    [SerializeField] private AudioClip jumpAudio2;
+    [SerializeField] private AudioClip jumpAudio3;
+    [SerializeField] private AudioClip jumpAudio4;
+    [SerializeField] private AudioClip dashAudio1;
+    [SerializeField] private AudioClip dashAudio2;
+    [SerializeField] private AudioClip collisionAudio1;
+    [SerializeField] private AudioClip collisionAudio2;
+    [SerializeField] private AudioClip collisionAudio3;
+    [SerializeField] private AudioClip collisionAudio4;
+    [SerializeField] private AudioClip collectibleAudio;
     [SerializeField] private AudioClip[] music;
 
     // save data
@@ -262,6 +273,62 @@ public class GameManager : MonoBehaviour
         data.time = 0;
     }
 
+    public void PlayJumpSound()
+    {
+        switch (Random.Range(1, 5)) // random int from 1 to 4
+        {
+            case 1:
+                audioSource.PlayOneShot(jumpAudio1);
+                break;
+            case 2:
+                audioSource.PlayOneShot(jumpAudio2);
+                break;
+            case 3:
+                audioSource.PlayOneShot(jumpAudio3);
+                break;
+            case 4:
+                audioSource.PlayOneShot(jumpAudio4);
+                break;
+        }
+    }
+
+    public void PlayDashSound()
+    {
+        switch (Random.Range(1, 3)) // random int, either 1 or 2
+        {
+            case 1:
+                audioSource.PlayOneShot(dashAudio1, 0.5f);
+                break;
+            case 2:
+                audioSource.PlayOneShot(dashAudio2, 0.5f);
+                break;
+        }
+    }
+
+    public void PlayCollisionSound()
+    {
+        switch (Random.Range(1, 5)) // random int from 1 to 4
+        {
+            case 1:
+                audioSource.PlayOneShot(collisionAudio1);
+                break;
+            case 2:
+                audioSource.PlayOneShot(collisionAudio2);
+                break;
+            case 3:
+                audioSource.PlayOneShot(collisionAudio3);
+                break;
+            case 4:
+                audioSource.PlayOneShot(collisionAudio4);
+                break;
+        }
+    }
+
+    public void PlayCollectibleSound()
+    {
+        audioSource.PlayOneShot(collectibleAudio, 0.5f);
+    }
+
     /// <summary>
     /// returns number of collected collectibles
     /// </summary>
@@ -299,4 +366,5 @@ public class GameManager : MonoBehaviour
         // reload scene
         SceneManager.LoadScene(data.sceneName, LoadSceneMode.Single);
     }
+
 }

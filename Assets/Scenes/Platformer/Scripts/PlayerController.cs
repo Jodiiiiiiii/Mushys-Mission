@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
     // components
     private Rigidbody2D rb;
     private BoxCollider2D box;
-    private AudioSource audioSource;
     private Animator animator;
 
     // layer masks
@@ -71,19 +70,6 @@ public class PlayerController : MonoBehaviour
     private bool spawnDirtRight;
     private float trailDelayTimer;
 
-    // audio
-    [SerializeField] private AudioClip jumpAudio1;
-    [SerializeField] private AudioClip jumpAudio2;
-    [SerializeField] private AudioClip jumpAudio3;
-    [SerializeField] private AudioClip jumpAudio4;
-    [SerializeField] private AudioClip dashAudio1;
-    [SerializeField] private AudioClip dashAudio2;
-    [SerializeField] private AudioClip collisionAudio1;
-    [SerializeField] private AudioClip collisionAudio2;
-    [SerializeField] private AudioClip collisionAudio3;
-    [SerializeField] private AudioClip collisionAudio4;
-    [SerializeField] private AudioClip collectibleAudio;
-
     // animation
     private float squashDelayTimer;
 
@@ -97,7 +83,6 @@ public class PlayerController : MonoBehaviour
         // component
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
-        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
         // assign player position to appropriate spawn point
@@ -180,7 +165,7 @@ public class PlayerController : MonoBehaviour
                     jumpTimer = 0;
                     jumpSide = Side.None;
                     // sound effect
-                    PlayJumpSound();
+                    gameManager.PlayJumpSound();
                 }
 
                 // right wall jump startup
@@ -192,7 +177,7 @@ public class PlayerController : MonoBehaviour
                     jumpSide = Side.Left;
                     facing = Side.Left;
                     // sound effect
-                    PlayJumpSound();
+                    gameManager.PlayJumpSound();
                 }
 
                 // left wall jump startup
@@ -204,7 +189,7 @@ public class PlayerController : MonoBehaviour
                     jumpSide = Side.Right;
                     facing = Side.Right;
                     // sound effect
-                    PlayJumpSound();
+                    gameManager.PlayJumpSound();
                 }
             }
             else // controls to apply jumping force and continue jump
@@ -283,7 +268,7 @@ public class PlayerController : MonoBehaviour
             camController.PulseCamera(); // trigger shake animation
 
             // sound effect
-            PlayDashSound();
+            gameManager.PlayDashSound();
         }
 
         // continues dash until dash terminates
@@ -354,7 +339,7 @@ public class PlayerController : MonoBehaviour
             if(spawnDirtBottom)
             {
                 Instantiate(dirtEffect, new Vector3(transform.position.x ,transform.position.y - box.bounds.extents.y), transform.rotation);
-                PlayCollisionSound();
+                gameManager.PlayCollisionSound();
                 spawnDirtBottom = false;
             }
 
@@ -364,7 +349,7 @@ public class PlayerController : MonoBehaviour
                 if (trailDelayTimer < 0)
                 {
                     Instantiate(dirtEffect, new Vector3(transform.position.x, transform.position.y - box.bounds.extents.y), transform.rotation);
-                    PlayCollisionSound();
+                    gameManager.PlayCollisionSound();
                     trailDelayTimer = PARTICLE_TRAIL_DELAY;
                 }
                 else
@@ -384,7 +369,7 @@ public class PlayerController : MonoBehaviour
             if (spawnDirtLeft)
             {
                 Instantiate(dirtEffect, new Vector3(transform.position.x - box.bounds.extents.x, transform.position.y), transform.rotation);
-                PlayCollisionSound();
+                gameManager.PlayCollisionSound();
                 spawnDirtLeft = false;
             }
         }
@@ -399,7 +384,7 @@ public class PlayerController : MonoBehaviour
             if (spawnDirtRight)
             {
                 Instantiate(dirtEffect, new Vector3(transform.position.x + box.bounds.extents.x, transform.position.y), transform.rotation);
-                PlayCollisionSound();
+                gameManager.PlayCollisionSound();
                 spawnDirtRight = false;
             }
         }
@@ -489,7 +474,7 @@ public class PlayerController : MonoBehaviour
             if (collision.TryGetComponent(out Collectible collectibleScript))
             {
                 collectibleScript.PlayerCollect();
-                PlayCollectibleSound();
+                gameManager.PlayCollectibleSound();
             }
             else
             {
@@ -591,62 +576,6 @@ public class PlayerController : MonoBehaviour
             return 0;
         else
             return dashCooldownTimer / DASH_COOLDOWN;
-    }
-
-    private void PlayJumpSound()
-    {
-        switch (Random.Range(1, 5)) // random int from 1 to 4
-        {
-            case 1:
-                audioSource.PlayOneShot(jumpAudio1);
-                break;
-            case 2:
-                audioSource.PlayOneShot(jumpAudio2);
-                break;
-            case 3:
-                audioSource.PlayOneShot(jumpAudio3);
-                break;
-            case 4:
-                audioSource.PlayOneShot(jumpAudio4);
-                break;
-        }
-    }
-
-    private void PlayDashSound()
-    {
-        switch (Random.Range(1, 3)) // random int, either 1 or 2
-        {
-            case 1:
-                audioSource.PlayOneShot(dashAudio1, 0.5f);
-                break;
-            case 2:
-                audioSource.PlayOneShot(dashAudio2, 0.5f);
-                break;
-        }
-    }
-
-    private void PlayCollisionSound()
-    {
-        switch (Random.Range(1, 5)) // random int from 1 to 4
-        {
-            case 1:
-                audioSource.PlayOneShot(collisionAudio1);
-                break;
-            case 2:
-                audioSource.PlayOneShot(collisionAudio2);
-                break;
-            case 3:
-                audioSource.PlayOneShot(collisionAudio3);
-                break;
-            case 4:
-                audioSource.PlayOneShot(collisionAudio4);
-                break;
-        }
-    }
-
-    private void PlayCollectibleSound()
-    {
-        audioSource.PlayOneShot(collectibleAudio, 0.5f);
     }
 
     private void SetRunAnim(bool state)
