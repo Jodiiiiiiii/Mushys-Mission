@@ -4329,10 +4329,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -3, y: 1}
-        - {x: -3, y: -4}
-        - {x: 3, y: -4}
-        - {x: 3, y: 2}
+      - - {x: -4, y: 1}
+        - {x: -4, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 2}
         - {x: 2, y: 3}
         - {x: -2, y: 3}
       tessellationDetail: 0
@@ -7906,7 +7906,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 0, y: 4}
+        - {x: 0, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: 4c4f3e3cdfb316c4e96181d2ceb9491a
@@ -7927,7 +7931,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 0}
+        - {x: -4, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 19a4195b842ae6947b18aaf5ddf9e1a2
@@ -8363,7 +8371,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 0, y: -4}
+        - {x: 0, y: 4}
+        - {x: -4, y: 4}
+        - {x: -4, y: -4}
       tessellationDetail: 0
       bones: []
       spriteID: 140aaf4e0704f8342bb72d937e11ce0b
@@ -12324,8 +12336,8 @@ TextureImporter:
       TileSet2_226: 673759927
       TileSet2_207: -1735390528
       TileSet2_233: 1306732101
-      TileSet2_452: 1528653308
       TileSet2_288: -2140190397
+      TileSet2_302: -295466979
       TileSet2_563: -1308724233
       TileSet2_112: -204636227
       TileSet2_6: -608490464
@@ -12453,9 +12465,9 @@ TextureImporter:
       TileSet2_551: 1812137278
       TileSet2_13: 1560011390
       TileSet2_3: -2130700861
-      TileSet2_437: -558513780
-      TileSet2_462: -2022258252
       TileSet2_490: 1577335946
+      TileSet2_462: -2022258252
+      TileSet2_437: -558513780
       TileSet2_44: -1724122930
       TileSet2_59: -849418672
       TileSet2_477: 1269567127
@@ -12869,21 +12881,21 @@ TextureImporter:
       TileSet2_228: -1371581372
       TileSet2_154: 1073093915
       TileSet2_342: 23785401
-      TileSet2_71: 1720863996
-      TileSet2_68: -1185543450
-      TileSet2_1: -2035105324
       TileSet2_517: 1900107148
-      TileSet2_202: 1692771896
-      TileSet2_16: -41937846
-      TileSet2_35: 1439875805
-      TileSet2_349: 901325210
-      TileSet2_4: -967459661
-      TileSet2_15: -826923521
       TileSet2_212: 755288864
-      TileSet2_512: 413023344
       TileSet2_128: -1507146192
+      TileSet2_71: 1720863996
+      TileSet2_202: 1692771896
+      TileSet2_1: -2035105324
+      TileSet2_349: 901325210
+      TileSet2_452: 1528653308
+      TileSet2_16: -41937846
+      TileSet2_15: -826923521
+      TileSet2_68: -1185543450
+      TileSet2_4: -967459661
+      TileSet2_35: 1439875805
       TileSet2_531: -1654119476
-      TileSet2_302: -295466979
+      TileSet2_512: 413023344
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
