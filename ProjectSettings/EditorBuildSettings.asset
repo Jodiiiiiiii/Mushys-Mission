@@ -47,4 +47,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Platformer/SceneInstances/3.4.unity
     guid: e26f98dcec933d641af072ef01204d32
+  - enabled: 1
+    path: Assets/Scenes/Platformer/SceneInstances/3.2.unity
+    guid: 75ef857ebf01b8c41a67e67e845919a5
+  - enabled: 1
+    path: Assets/Scenes/Platformer/SceneInstances/3.5.unity
+    guid: 10ec6b1a8a93ff446ae100883906b841
   m_configObjects: {}
