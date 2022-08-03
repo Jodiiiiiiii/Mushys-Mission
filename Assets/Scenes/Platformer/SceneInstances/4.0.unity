@@ -17976,7 +17976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004ec044c1afc1f40b081bd9206a958f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtEffect: {fileID: 4474005784919045738, guid: ee55f7e50be68794e86168c4fd6307e1, type: 3}
+  dirtEffect: {fileID: 4474005784919045738, guid: 0c3b86a3761114f4ca4ec74409d69b9c, type: 3}
   standardPlatformMask:
     serializedVersion: 2
     m_Bits: 64
