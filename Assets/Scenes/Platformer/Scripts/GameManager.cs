@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     // constants
     private const float GRAVITY_FORCE = 19.62f;
-    private const int COLLECTIBLE_COUNT = 100;
+    private const int COLLECTIBLE_COUNT = 25;
     private const float RELOAD_DELAY = 0.5f;
 
     // instance
