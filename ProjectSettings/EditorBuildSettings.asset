@@ -68,4 +68,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Platformer/SceneInstances/7.0.unity
     guid: 2626b129cddc9ee4aa3aa0321bdb63a9
+  - enabled: 1
+    path: Assets/Scenes/Platformer/SceneInstances/TheEnd.unity
+    guid: b70a36ade1b7113449dff9b3b88aa730
   m_configObjects: {}
