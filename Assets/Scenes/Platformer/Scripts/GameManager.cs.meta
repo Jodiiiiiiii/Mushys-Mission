@@ -4,7 +4,22 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - platformerCanvas: {fileID: 6179190579657682609, guid: bba71ec5b8e41214b9d7e31780bf7d80, type: 3}
+  - secureCollectibleAudio: {instanceID: 0}
+  - healAudio: {instanceID: 0}
+  - deathAudio: {instanceID: 0}
+  - gameOverAudio: {instanceID: 0}
+  - jumpAudio1: {instanceID: 0}
+  - jumpAudio2: {instanceID: 0}
+  - jumpAudio3: {instanceID: 0}
+  - jumpAudio4: {instanceID: 0}
+  - dashAudio1: {instanceID: 0}
+  - dashAudio2: {instanceID: 0}
+  - collisionAudio1: {instanceID: 0}
+  - collisionAudio2: {instanceID: 0}
+  - collisionAudio3: {instanceID: 0}
+  - collisionAudio4: {instanceID: 0}
+  - collectibleAudio: {instanceID: 0}
+  - victoryTrack: {fileID: 8300000, guid: 524fb3698f9864ea4a953e57aefc11ad, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

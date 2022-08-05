@@ -482,6 +482,12 @@ public class PlayerController : MonoBehaviour
                 throw new System.Exception("Invalid use of 'Collectible' tag");
             }
         }
+
+        if(collision.CompareTag("Restart"))
+        {
+            // start new run when colliding with a restart box (only in final scene)
+            gameManager.StartNewRun();
+        }
     }
 
     /// <summary>

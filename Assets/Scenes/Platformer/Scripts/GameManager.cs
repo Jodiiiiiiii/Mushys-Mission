@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip collisionAudio4;
     [SerializeField] private AudioClip collectibleAudio;
     [SerializeField] private AudioClip[] music;
+    [SerializeField] private AudioClip victoryTrack;
 
     // save data
     [System.Serializable]
@@ -47,9 +48,13 @@ public class GameManager : MonoBehaviour
         public int health;
         public bool[] collectibles;
         public int highScore;
+        public float bestTime;
         public float time;
     }
     private SaveData data;
+
+    // variables
+    private bool gameEnded;
 
     // events
     public UnityEvent transitionEvent { get; private set; }
@@ -75,7 +80,8 @@ public class GameManager : MonoBehaviour
             }
             else // default save file configuration
             {
-                data.highScore = 0; // only reset high score to zero if no file exists
+                data.highScore = -1; // only reset high score to -1 if no file exists
+                data.time = float.NaN;
                 InitializeDefaultSaveData();
             }
 
@@ -87,6 +93,9 @@ public class GameManager : MonoBehaviour
 
             // start random music track
             PlayRandomMusic();
+
+            // variable instantiation;
+            gameEnded = false;
         }
         else
         {
@@ -108,12 +117,47 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(!audioSource.isPlaying)
+        if(SceneManager.GetActiveScene().name == "TheEnd")
         {
-            PlayRandomMusic();
-        }
+            if(!gameEnded) // only runs game ending code ONCE
+            {
+                // stop current music
+                audioSource.Stop();
 
-        data.time += Time.deltaTime;
+                // play victory track
+                audioSource.PlayOneShot(victoryTrack, 0.5f);
+
+                // update high score if necessary
+                if (GetCurrentScore() > data.highScore)
+                {
+                    // update high score
+                    data.highScore = GetCurrentScore();
+                    data.bestTime = data.time;
+                }
+                else if (GetCurrentScore() == data.highScore && (data.bestTime == float.NaN || data.time < data.bestTime))
+                {
+                    // update best time for tied high score
+                    data.bestTime = data.time;
+                }
+
+                gameEnded = true;
+            }
+        }
+        else
+        {
+            if (SceneManager.GetActiveScene().name == "1.0")
+            {
+                // allows for new score to be saved at the end of the new run
+                gameEnded = false;
+            }
+
+            if (!audioSource.isPlaying)
+            {
+                PlayRandomMusic();
+            }
+
+            data.time += Time.deltaTime;
+        }
     }
 
     private void OnApplicationQuit()
@@ -169,6 +213,11 @@ public class GameManager : MonoBehaviour
         return data.time;
     }
 
+    public float GetBestTime()
+    {
+        return data.bestTime;
+    }
+
     // SETTERS ----------------------------------------------------------------------------------
 
     public void SetSpawnPoint(Vector3 newSpawnPoint)
@@ -197,6 +246,18 @@ public class GameManager : MonoBehaviour
     // MODIFIERS ----------------------------------------------------------------------------------
 
     /// <summary>
+    /// Called to restart after completing a successful run
+    /// </summary>
+    public void StartNewRun()
+    {
+        // resets to initial save data default
+        InitializeDefaultSaveData();
+
+        // reload scene
+        SceneManager.LoadScene(data.sceneName, LoadSceneMode.Single);
+    }
+
+    /// <summary>
     /// decrements health and reloads scene
     /// </summary>
     public void HazardCollision()
@@ -207,11 +268,6 @@ public class GameManager : MonoBehaviour
         // game over state
         if (data.health <= 0)
         {
-            // update high score if necessary
-            if(GetCurrentScore() > data.highScore)
-            {
-                data.highScore = GetCurrentScore();
-            }
             // resets to initial save data default (until more involved save system is established)
             InitializeDefaultSaveData();
 
@@ -258,7 +314,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// initializes save data to a default state (useful for if save file is missing or game state is reset after a game over)
+    /// initializes save data to a default state (useful for if save file is missing or game state is reset after a game over or completion)
     /// </summary>
     public void InitializeDefaultSaveData()
     {

@@ -9,6 +9,7 @@ TagManager:
   - Transition
   - Restoration
   - Collectible
+  - Restart
   layers:
   - Default
   - TransparentFX
